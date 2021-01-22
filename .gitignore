@@ -1,0 +1,8 @@
+**/pca10056/blank/arm5_no_packs/*
+!**/pca10056/blank/arm5_no_packs/usbd_hid_composite_pca10056.uvoptx
+!**/pca10056/blank/arm5_no_packs/usbd_hid_composite_pca10056.uvprojx
+
+**/pca10056/blank/ses/*
+!**/pca10056/blank/ses/flash_placement.xml
+!**/pca10056/blank/ses/usbd_hid_composite_pca10056.emProject
+!**/pca10056/blank/ses/usbd_hid_composite_pca10056.emSession
