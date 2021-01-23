@@ -73,7 +73,7 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="48" y="636" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="607" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="636" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="607" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="83" useTextEdit="1" openedFrom="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd_define.c" useBinaryEdit="0" left="0" path="../../../user/kbd_define.h" selected="0" top="67" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="203" useTextEdit="1" openedFrom="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.c" useBinaryEdit="0" left="0" path="../../../user/kbd_define.c" selected="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="617" useTextEdit="1" openedFrom="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.c" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/class/hid/kbd/app_usbd_hid_kbd.c" selected="0" top="563" codecName="Default"/>
