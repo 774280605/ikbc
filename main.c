@@ -629,7 +629,7 @@ int main(void)
 #ifdef TEST_USB
     kbd_init();
     m_kbdContext.m_usbHandle=&m_app_hid_kbd;
-    ws2812_init();
+    //ws2812_init();
 #endif
 
     while (true)

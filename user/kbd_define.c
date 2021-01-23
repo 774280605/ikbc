@@ -44,8 +44,8 @@ uint32_t m_col[15] = {
     NRF_GPIO_PIN_MAP(0, 4), // 10
     NRF_GPIO_PIN_MAP(0, 12), // 11
     NRF_GPIO_PIN_MAP(0, 7), // 12
-    NRF_GPIO_PIN_MAP(0, 15), // 13
-    NRF_GPIO_PIN_MAP(0, 17),  // 14
+    NRF_GPIO_PIN_MAP(0, 13), // 13
+    NRF_GPIO_PIN_MAP(0, 24),  // 14
 };
 
 
@@ -63,8 +63,8 @@ uint32_t m_row_col_0[15] = {
     NRF_GPIO_PIN_MAP(0, 4), // 10
     NRF_GPIO_PIN_MAP(0, 12), // 11
     NRF_GPIO_PIN_MAP(0, 7), // 12
-    NRF_GPIO_PIN_MAP(0, 15), // 13
-    NRF_GPIO_PIN_MAP(0, 17),  // 14
+    NRF_GPIO_PIN_MAP(0, 13), // 13
+    NRF_GPIO_PIN_MAP(0, 24),  // 14
 };
 
 
@@ -82,8 +82,8 @@ uint32_t m_row_col_1[15] = {
     NRF_GPIO_PIN_MAP(0, 4), // 10
     NRF_GPIO_PIN_MAP(0, 12), // 11
     NRF_GPIO_PIN_MAP(0, 7), // 12
-    NRF_GPIO_PIN_MAP(0, 15), // 13
-    NRF_GPIO_PIN_MAP(0, 17),  // 14
+    NRF_GPIO_PIN_MAP(0, 13), // 13
+    NRF_GPIO_PIN_MAP(0, 24),  // 14
 
 };
 uint32_t m_row_col_2[15] = {
@@ -100,8 +100,8 @@ uint32_t m_row_col_2[15] = {
     NRF_GPIO_PIN_MAP(0, 4), // 10
     NRF_GPIO_PIN_MAP(0, 12), // 11
     NRF_GPIO_PIN_MAP(0, 7), // 12
-    NRF_GPIO_PIN_MAP(0, 15), // 13
-    NRF_GPIO_PIN_MAP(0, 17),  // 14
+    NRF_GPIO_PIN_MAP(0, 13), // 13
+    NRF_GPIO_PIN_MAP(0, 24),  // 14
 
 };
 uint32_t m_row_col_3[15] = {
@@ -118,8 +118,8 @@ uint32_t m_row_col_3[15] = {
     NRF_GPIO_PIN_MAP(0, 4), // 10
     NRF_GPIO_PIN_MAP(0, 12), // 11
     NRF_GPIO_PIN_MAP(0, 7), // 12
-    NRF_GPIO_PIN_MAP(0, 15), // 13
-    NRF_GPIO_PIN_MAP(0, 17),  // 14
+    NRF_GPIO_PIN_MAP(0, 13), // 13
+    NRF_GPIO_PIN_MAP(0, 24),  // 14
 
 };
 
@@ -159,9 +159,9 @@ uint32_t m_row_col_5[11] = {
 
 unsigned char m_KBD_TABLE[6][15] = {
     {KEY_ESC, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10,KEY_F11, KEY_F12, 
-              KEY_PAGEUP, KEY_HOME},
+              KEY_INSERT, KEY_HOME},
     {KEY_TILDE, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0, KEY_SUB,KEY_ADD, KEY_BACKSPACE, 
-              KEY_INSERT},
+              KEY_PAGEUP},
     {KEY_TAB, KEY_Q, KEY_W, KEY_E, KEY_R, KEY_T, KEY_Y, KEY_U, KEY_I, KEY_O, KEY_P,KEY_LEFT_BRACKET, KEY_RIGHT_BRACKET, 
               KEY_SLASH,KEY_DELETE},
     {KEY_L_CTRL, KEY_A, KEY_S, KEY_D, KEY_F, KEY_G, KEY_H, KEY_J, KEY_K, KEY_L, KEY_SEM, KEY_YINHAO,KEY_RETURN, 

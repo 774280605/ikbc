@@ -17,12 +17,16 @@ uint32_t m_lowEnergyCount=0;
 bool m_lowEnergyTimeout=false;
 
 
-uint32_t m_unuse_pin[5]={
-NRF_GPIO_PIN_MAP(0,24),
+uint32_t m_unuse_pin[9]={
+NRF_GPIO_PIN_MAP(0,15),
+NRF_GPIO_PIN_MAP(0,17),
+NRF_GPIO_PIN_MAP(0,20),
+NRF_GPIO_PIN_MAP(0,22),
 NRF_GPIO_PIN_MAP(1,0),
 NRF_GPIO_PIN_MAP(1,2),
 NRF_GPIO_PIN_MAP(1,4),
 NRF_GPIO_PIN_MAP(1,6),
+NRF_GPIO_PIN_MAP(0,10),
 };
 
 
@@ -71,7 +75,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_color_white();
+              //set_color_white();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -80,7 +84,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_color_green();
+              //set_color_green();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -89,7 +93,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_color_red();
+              //set_color_red();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -98,7 +102,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_color_blue();
+              //set_color_blue();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -107,7 +111,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_custom_color_1();
+              //set_custom_color_1();
               nrf_delay_ms(200);
             }
               
@@ -117,7 +121,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              set_custom_color_2();
+              //set_custom_color_2();
               nrf_delay_ms(200);
             }
               
@@ -128,7 +132,7 @@ void kbd_fn_key_handle()
             if(m_kbdContext.m_connMode==WIRE_MODE)
             { 
 
-              set_custom_color_3();
+              //set_custom_color_3();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -137,7 +141,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             { 
-             set_custom_color_4();
+             //set_custom_color_4();
              nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -147,7 +151,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             { 
-              setup_pretty_led();
+              //setup_pretty_led();
               nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -157,7 +161,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              increase_light();
+              //increase_light();
               nrf_delay_ms(100);
             }
               
@@ -167,7 +171,7 @@ void kbd_fn_key_handle()
         {
             if(m_kbdContext.m_connMode==WIRE_MODE)
             {
-              decrease_light();
+             // decrease_light();
               nrf_delay_ms(100);
             }
               
@@ -185,7 +189,7 @@ void kbd_init()
     memset(&m_kbdContext,0,sizeof(m_kbdContext));
     m_kbdContext.m_connMode=WIRELESS_MODE;
     
-    for(uint8_t i=0;i<5;++i)
+    for(uint8_t i=0;i<9;++i)
     {
       nrf_gpio_cfg_input(m_unuse_pin[i],NRF_GPIO_PIN_PULLDOWN);
       nrf_delay_us(2);
@@ -194,7 +198,7 @@ void kbd_init()
     
     kbd_gpio_init();
 
-    led_flash_init();
+    //led_flash_init();
 
     //low_energy_timer_init();
     //kbd_setup_low_energy_tiemr();
