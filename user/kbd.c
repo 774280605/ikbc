@@ -570,8 +570,8 @@ void start_record_macro()
 {
     if (is_create_macroo())
     {
-        if(m_kbdContext.m_connMode==WIRE_MODE)
-          led_flash_start();
+        //if(m_kbdContext.m_connMode==WIRE_MODE)
+         // led_flash_start();
         uint8_t is_create = 0;
         uint8_t recordKey = m_kbdContext.m_currentRecordMacro;
         uint8_t alreadyInMacroMount = 0;
@@ -621,8 +621,8 @@ void start_record_macro()
         reset_kbd_status();
 
         nrf_delay_ms(200);
-        if(m_kbdContext.m_connMode==WIRE_MODE)
-          led_flash_stop();
+        //if(m_kbdContext.m_connMode==WIRE_MODE)
+         // led_flash_stop();
     }
 }
 
