@@ -1,7 +1,7 @@
 #ifndef __USER_KBD_DEFINE__
 #define __USER_KBD_DEFINE__
 #include "app_usbd_hid_kbd.h"
-#include "nrf_esb.h"
+//#include "nrf_esb.h"
 #include <stdint.h>
 
 

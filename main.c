@@ -68,8 +68,8 @@
 
 
 //esb
-#include "nrf_esb.h"
-#include "nrf_esb_error_codes.h"
+//#include "nrf_esb.h"
+//#include "nrf_esb_error_codes.h"
 #include "app_usbd_hid_kbd_internal.h"
 #include "nrf_gpiote.h"
 #include "nrf_drv_gpiote.h"
@@ -374,7 +374,7 @@ static void mouse_move_timer_handler(void * p_context)
 
 
 
-nrf_esb_payload_t rx_payload;
+//nrf_esb_payload_t rx_payload;
 
 
 void clocks_start( void )
