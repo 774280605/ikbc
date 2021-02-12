@@ -150,7 +150,7 @@ typedef struct
     const app_usbd_hid_kbd_t * m_usbHandle;
     uint8_t m_energyMode;
     bool m_spi_inited;
-   
+    uint8_t m_pipe;
 
 
 } KBD_Context_t;

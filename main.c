@@ -386,81 +386,7 @@ void clocks_start( void )
 }
 
 
-/*
-void nrf_esb_event_handler(nrf_esb_evt_t const * p_event)
-{
-    switch (p_event->evt_id)
-    { 
-        case NRF_ESB_EVENT_TX_SUCCESS:
-            NRF_LOG_DEBUG("TX SUCCESS EVENT");
-            break;
-        case NRF_ESB_EVENT_TX_FAILED:
-           
-             NRF_LOG_DEBUG("TX FAILED EVENT");
-            (void) nrf_esb_flush_tx();
-            (void) nrf_esb_start_tx();
-            break;
-        case NRF_ESB_EVENT_RX_RECEIVED:
-            NRF_LOG_DEBUG("RX RECEIVED EVENT");
-            if (nrf_esb_read_rx_payload(&rx_payload) == NRF_SUCCESS)
-            {
-                //send_hid_data(&m_app_hid_kbd,rx_payload.data);
-                // Set LEDs identical to the ones on the PTX.
-                //nrf_gpio_pin_write(LED_1, !(rx_payload.data[1]%8>0 && rx_payload.data[1]%8<=4));
-                //nrf_gpio_pin_write(LED_2, !(rx_payload.data[1]%8>1 && rx_payload.data[1]%8<=5));
-                //nrf_gpio_pin_write(LED_3, !(rx_payload.data[1]%8>2 && rx_payload.data[1]%8<=6));
-                //nrf_gpio_pin_write(LED_4, !(rx_payload.data[1]%8>3));
 
-                //NRF_LOG_DEBUG("Receiving packet: %02x", rx_payload.data[1]);
-            }
-            break;
-    }
-}
-
-uint32_t esb_init( void )
-{
-    uint32_t err_code;
-    uint8_t base_addr_0[4] = {0x43,0x10,0x10,0x01};
-    uint8_t base_addr_1[4] = {0x43,0x10,0x10,0x01};
-    uint8_t addr_prefix[8] = {0x34, 0x2c, 0x2c, 0x2c, 0x2c, 0x2c, 0x2c, 0x2c };
-   
-    nrf_esb_config_t nrf_esb_config         = NRF_ESB_LEGACY_CONFIG;
-    nrf_esb_config.payload_length           = 8;
-    nrf_esb_config.protocol                 = NRF_ESB_PROTOCOL_ESB_DPL;
-    nrf_esb_config.bitrate                  = NRF_ESB_BITRATE_2MBPS;
-    nrf_esb_config.mode                     = NRF_ESB_MODE_PTX;
-    nrf_esb_config.event_handler            = nrf_esb_event_handler;
-    nrf_esb_config.selective_auto_ack       = true;
-    nrf_esb_config.crc                      =NRF_ESB_CRC_8BIT;
-    nrf_esb_config.tx_output_power          =NRF_ESB_TX_POWER_0DBM;
-    nrf_esb_config.retransmit_count         =15;
-    nrf_esb_config.retransmit_delay         =400;
-    
-     err_code= nrf_esb_set_rf_channel(60);
-     VERIFY_SUCCESS(err_code);
-    
-   
-    VERIFY_SUCCESS(err_code);
-    err_code = nrf_esb_init(&nrf_esb_config);
-    VERIFY_SUCCESS(err_code);
-
-    err_code = nrf_esb_set_base_address_0(base_addr_0);
-    VERIFY_SUCCESS(err_code);
-
-    err_code = nrf_esb_set_base_address_1(base_addr_1);
-    VERIFY_SUCCESS(err_code);
-
-    err_code = nrf_esb_set_prefixes(addr_prefix, 8);
-    VERIFY_SUCCESS(err_code);
-
-    err_code= nrf_esb_set_address_length(5);
-
-    
-
-    return err_code;
-}
-
-*/
 
 /**
  * @brief Gazelle callback.
@@ -490,15 +416,7 @@ void nrf_gzll_disabled()
  */
 void  nrf_gzll_device_tx_success(uint32_t pipe, nrf_gzll_device_tx_info_t tx_info)
 {
-    bool     result_value         = false;
-    uint32_t m_ack_payload_length = NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH;
-
-    if (tx_info.payload_received_in_ack)
-    {
-        
-    }
-
-  
+   
 
 }
 
@@ -513,16 +431,7 @@ void  nrf_gzll_device_tx_success(uint32_t pipe, nrf_gzll_device_tx_info_t tx_inf
  */
 void nrf_gzll_device_tx_failed(uint32_t pipe, nrf_gzll_device_tx_info_t tx_info)
 {
-    NRF_LOG_ERROR("Gazell transmission failed");
-
-    // Load data into TX queue.
    
-
-    /*bool result_value = nrf_gzll_add_packet_to_tx_fifo(pipe, m_data_payload, TX_PAYLOAD_LENGTH);
-    if (!result_value)
-    {
-        NRF_LOG_ERROR("TX fifo error ");
-    }*/
 }
 
 #define TEST_USB

@@ -15,7 +15,8 @@ KBD_Context_t m_kbdContext;
 uint32_t m_lowEnergyCount=0;
 
 bool m_lowEnergyTimeout=false;
-
+#define PIPE_NUM_0 0
+#define PIPE_NUM_1 1
 
 uint32_t m_unuse_pin[9]={
 NRF_GPIO_PIN_MAP(0,15),
@@ -77,6 +78,7 @@ void kbd_fn_key_handle()
             {
               //set_color_white();
               nrf_delay_ms(200);
+              m_kbdContext.m_pipe=PIPE_NUM_0;
             }
             reset_kbd_status();
         }
@@ -86,6 +88,7 @@ void kbd_fn_key_handle()
             {
               //set_color_green();
               nrf_delay_ms(200);
+              m_kbdContext.m_pipe=PIPE_NUM_1;
             }
             reset_kbd_status();
         }
@@ -188,6 +191,7 @@ void kbd_init()
 {
     memset(&m_kbdContext,0,sizeof(m_kbdContext));
     m_kbdContext.m_connMode=WIRELESS_MODE;
+    m_kbdContext.m_pipe=0;
     
     for(uint8_t i=0;i<9;++i)
     {
@@ -638,7 +642,8 @@ void kbd_send_hid_report()
 {
      if (m_kbdContext.m_connMode == WIRELESS_MODE)
     {
-        nrf_gzll_add_packet_to_tx_fifo(0, (uint8_t*)&m_kbdContext, 8);
+        nrf_gzll_add_packet_to_tx_fifo(m_kbdContext.m_pipe, 
+        (uint8_t*)&m_kbdContext, 8);
     }
     else
     {
