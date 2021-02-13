@@ -193,6 +193,9 @@ void kbd_send_hid_report();
 //×éºÏ¼ü
 uint8_t kbd_composite_key_handle(uint8_t row,uint8_t col);
 
+void kbd_capslock_on();
+void kbd_capslock_off();
+
 
 void send_hid_data(app_usbd_hid_kbd_t const * p_kbd,uint8_t* buf);
 

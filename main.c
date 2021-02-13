@@ -85,6 +85,9 @@
 #include "nrf_gzll_error.h"
 bool m_usbOnline=false;
 
+#define CAPSLOCK_ON "capslockon"
+#define CAPSLOCK_OFF "capslockoff"
+
 #define PIPE_NUMBER             0   /**< Pipe 0 is used in this example. */
 #define TX_PAYLOAD_LENGTH       1   /**< 1-byte payload length is used when transmitting. */
 #define MAX_TX_ATTEMPTS         100 /**< Maximum number of transmission attempts */
@@ -228,11 +231,11 @@ static void kbd_status(void)
 
     if(app_usbd_hid_kbd_led_state_get(&m_app_hid_kbd, APP_USBD_HID_KBD_LED_CAPS_LOCK))
     {
-        
+        kbd_capslock_on();
     }
     else
     {
-       
+       kbd_capslock_off();
     }
 }
 
@@ -386,7 +389,8 @@ void clocks_start( void )
 }
 
 
-
+#define CAPSLOCK_ON "capslockon"
+#define CAPSLOCK_OFF "capslockoff"
 
 /**
  * @brief Gazelle callback.
@@ -394,6 +398,33 @@ void clocks_start( void )
  */
 void nrf_gzll_host_rx_data_ready(uint32_t pipe, nrf_gzll_host_rx_info_t rx_info)
 {
+    if(pipe != m_kbdContext.m_pipe)
+      return;
+
+    uint32_t data_payload_length = NRF_GZLL_CONST_MAX_PAYLOAD_LENGTH;
+
+    // Pop packet and write first byte of the payload to the GPIO port.
+    char buffer[32];
+    bool result_value = nrf_gzll_fetch_packet_from_rx_fifo(pipe,
+                                                           buffer,
+                                                           &data_payload_length);
+
+    if (!result_value)
+    {
+        NRF_LOG_ERROR("RX fifo error ");
+    }
+    
+    if(strcmp(buffer,CAPSLOCK_ON)==0)
+    {
+        //kbd_capslock_on();
+    }
+
+    if(strcmp(buffer,CAPSLOCK_OFF)==0)
+    {
+        //kbd_capslock_off();
+    }
+
+
 }
 
 

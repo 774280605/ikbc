@@ -198,8 +198,9 @@ void kbd_init()
       nrf_gpio_cfg_input(m_unuse_pin[i],NRF_GPIO_PIN_PULLDOWN);
       nrf_delay_us(2);
     }
-   
-    
+    //capslock
+    nrf_gpio_cfg_output(NRF_GPIO_PIN_MAP(0,9));
+    kbd_capslock_off();
     kbd_gpio_init();
 
     //led_flash_init();
@@ -730,3 +731,11 @@ uint8_t kbd_composite_key_handle(uint8_t row,uint8_t col)
     return SINGLE_COMPOSITE_KEY;
 }
 
+void kbd_capslock_on()
+{   
+    nrf_gpio_pin_clear(NRF_GPIO_PIN_MAP(0,9));
+}
+void kbd_capslock_off()
+{
+    nrf_gpio_pin_set(NRF_GPIO_PIN_MAP(0,9));
+}
