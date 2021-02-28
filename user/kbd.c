@@ -590,13 +590,13 @@ void start_record_macro()
             {
                 continue;
             }
-            if (is_create_macroo() && (is_create >0))
+            /*if (is_create_macroo() && (is_create >0))
             {
                 if (m_kbdContext.m_currentRecordMacro == recordKey)
                 {
                     break;
                 }
-            }
+            }*/
 
             if (is_create_macroo() && is_create == 0)
             {

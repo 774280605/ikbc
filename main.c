@@ -416,12 +416,12 @@ void nrf_gzll_host_rx_data_ready(uint32_t pipe, nrf_gzll_host_rx_info_t rx_info)
     
     if(strcmp(buffer,CAPSLOCK_ON)==0)
     {
-        //kbd_capslock_on();
+        kbd_capslock_on();
     }
 
     if(strcmp(buffer,CAPSLOCK_OFF)==0)
     {
-        //kbd_capslock_off();
+        kbd_capslock_off();
     }
 
 
@@ -483,6 +483,8 @@ static void keyboard_scan_timer_handler(void * p_context)
 }
 
 
+
+
 int main(void)
 {
     ret_code_t ret;
@@ -512,7 +514,7 @@ int main(void)
     nrf_drv_clock_lfclk_request(NULL);
     while(!nrf_drv_clock_lfclk_is_running())
     {
-        /* Just waiting */
+        /* Jus waiting */
     }
 
     ret = app_timer_init();

@@ -138,7 +138,9 @@
     <configuration
       Name="Release"
       c_preprocessor_definitions="CONFIG_NFCT_PINS_AS_GPIOS"
-      c_user_include_directories=".;../../../../../../components/proprietary_rf/esb;../../../../../../components/proprietary_rf/gzll;../../../../../../components/proprietary_rf/gzll/config" />
+      c_user_include_directories=".;../../../../../../components/proprietary_rf/esb;../../../../../../components/proprietary_rf/gzll;../../../../../../components/proprietary_rf/gzll/config"
+      gcc_c_language_standard="gnu11"
+      gcc_cplusplus_language_standard="gnu++11" />
     <folder Name="nRF_Properitary_RF">
       <file file_name="../../../../../../components/proprietary_rf/gzll/gcc/gzll_nrf52840_sd_resources_gcc.a" />
     </folder>
