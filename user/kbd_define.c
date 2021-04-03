@@ -34,7 +34,7 @@ uint32_t m_col[15] = {
     NRF_GPIO_PIN_MAP(0, 29), // 0
     NRF_GPIO_PIN_MAP(0, 31),  // 1
     NRF_GPIO_PIN_MAP(0, 30),  // 2
-    NRF_GPIO_PIN_MAP(0, 0),  // 3
+    NRF_GPIO_PIN_MAP(0, 0),  // 3w
     NRF_GPIO_PIN_MAP(0, 26),  // 4
     NRF_GPIO_PIN_MAP(0, 1),  // 5
     NRF_GPIO_PIN_MAP(0, 6), // 6
@@ -172,44 +172,44 @@ unsigned char m_KBD_TABLE[6][15] = {
         KEY_LEFTARROW, KEY_DOWNARROW, KEY_RIGHTARROW, 0, 0, 0, 0}};
 
 
-KEY_Index LCTRL_KEY = {3, 0x00};
-KEY_Index LSHIFT_KEY = {4, 0x00};
-KEY_Index LALT_KEY = {5, 0x02};
+KEY_Point LCTRL_KEY = {3, 0};
+KEY_Point LSHIFT_KEY = {4, 0};
+KEY_Point LALT_KEY = {5, 2};
 
-KEY_Index RCTRL_KEY = {5, 7};
-KEY_Index RSHIFT_KEY = {4, 11};
-KEY_Index RALT_KEY = {5, 4};
-KEY_Index WIN_KEY = {5, 0x01};
+KEY_Point RCTRL_KEY = {5, 7};
+KEY_Point RSHIFT_KEY = {4, 11};
+KEY_Point RALT_KEY = {5, 4};
+KEY_Point WIN_KEY = {5, 0x01};
 
-KEY_Index FN_KEY = {5, 5};
-KEY_Index MENU_KEY = {5, 6};
+KEY_Point FN_KEY = {5, 5};
+KEY_Point MENU_KEY = {5, 6};
 
-KEY_Index UP_KEY = {4, 12};
-KEY_Index LEFT_KEY = {5, 8};
-KEY_Index DOWN_KEY = {5, 9};
-KEY_Index RIGTH_KEY = {5, 10};
+KEY_Point UP_KEY = {4, 12};
+KEY_Point LEFT_KEY = {5, 8};
+KEY_Point DOWN_KEY = {5, 9};
+KEY_Point RIGTH_KEY = {5, 10};
 
-KEY_Index A_KEY = {3, 1};
-KEY_Index Q_KEY = {2, 1};
-KEY_Index W_KEY = {2, 2};
-KEY_Index E_KEY = {2, 3};
-KEY_Index CAPS_KEY={5,0};
-KEY_Index BOLANGXIAN_KEY={1,0};
-KEY_Index J_KEY=  {3,7};
-KEY_Index K_KEY=  {3,8};
-KEY_Index L_KEY=  {3,9};
-KEY_Index I_KEY=  {2,8};
-KEY_Index BACKSPACE_KEY={1,13};
+KEY_Point A_KEY = {3, 1};
+KEY_Point Q_KEY = {2, 1};
+KEY_Point W_KEY = {2, 2};
+KEY_Point E_KEY = {2, 3};
+KEY_Point CAPS_KEY={5,0};
+KEY_Point BOLANGXIAN_KEY={1,0};
+KEY_Point J_KEY=  {3,7};
+KEY_Point K_KEY=  {3,8};
+KEY_Point L_KEY=  {3,9};
+KEY_Point I_KEY=  {2,8};
+KEY_Point BACKSPACE_KEY={1,13};
 
 
-KEY_Index K_1_KEY={1,1};
-KEY_Index K_2_KEY={1,2};
-KEY_Index K_3_KEY={1,3};
-KEY_Index K_4_KEY={1,4};
-KEY_Index K_5_KEY={1,5};
-KEY_Index K_6_KEY={1,6};
-KEY_Index K_7_KEY={1,7};
-KEY_Index K_8_KEY={1,8};
-KEY_Index K_9_KEY={1,9};
-KEY_Index K_0_KEY={1,10};
+KEY_Point K_1_KEY={1,1};
+KEY_Point K_2_KEY={1,2};
+KEY_Point K_3_KEY={1,3};
+KEY_Point K_4_KEY={1,4};
+KEY_Point K_5_KEY={1,5};
+KEY_Point K_6_KEY={1,6};
+KEY_Point K_7_KEY={1,7};
+KEY_Point K_8_KEY={1,8};
+KEY_Point K_9_KEY={1,9};
+KEY_Point K_0_KEY={1,10};
 

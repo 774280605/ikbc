@@ -4,9 +4,7 @@
 #include "nrf_esb.h"
 #include <stdint.h>
 
-
 //#define KBD_SCAN_INTERRUPT
-
 
 #define KEY_A 4
 #define KEY_B 5
@@ -51,17 +49,17 @@
 #define KEY_BACKSPACE 42
 #define KEY_TAB 43
 #define KEY_SPACEBAR 44
-#define KEY_SUB 45           //-_
-#define KEY_ADD 46           //+=
-#define KEY_LEFT_BRACKET 47  //[{
-#define KEY_RIGHT_BRACKET 48 //]}
-#define KEY_SLASH 49         // \|
-#define KEY_SEM 51           //·ÖºÅ
-#define KEY_YINHAO 52        //'" ÒýºÅ
-#define KEY_TILDE 53         //`~ ²¨ÀËÏß
-#define KEY_COMMA 54         //,¶ººÅ
-#define KEY_PERIOD 55        //.¾äºÅ
-#define KEY_WHY 56           //ÎÊºÅ
+#define KEY_SUB 45            //-_
+#define KEY_ADD 46            //+=
+#define KEY_LEFT_BRACKET 47   //[{
+#define KEY_RIGHT_BRACKET 48  //]}
+#define KEY_SLASH 49          // \|
+#define KEY_SEM 51            //·ÖºÅ
+#define KEY_YINHAO 52         //'" ÒýºÅ
+#define KEY_TILDE 53          //`~ ²¨ÀËÏß
+#define KEY_COMMA 54          //,¶ººÅ
+#define KEY_PERIOD 55         //.¾äºÅ
+#define KEY_WHY 56            //ÎÊºÅ
 
 #define KEY_CAPS 57
 
@@ -114,21 +112,18 @@
 #define RIGHT_ALT_BIT 6
 #define WIN_KEY_BIT 3
 
-enum
-{
-    WIRE_MODE,
-    WIRELESS_MODE,
+enum {
+  WIRE_MODE,
+  WIRELESS_MODE,
 
 };
 
-
 typedef struct
 {
-    uint8_t row;
-    uint8_t col;
+  uint8_t row;
+  uint8_t col;
 
-} KEY_Index;
-
+} KEY_Point;
 
 extern uint8_t m_modifier;
 extern uint8_t m_macro_key;
@@ -152,49 +147,47 @@ extern uint32_t m_row_col_5[11];
 
 extern unsigned char m_KBD_TABLE[6][15];
 
-extern KEY_Index LCTRL_KEY;
-extern KEY_Index LSHIFT_KEY;
-extern KEY_Index LALT_KEY;
+extern KEY_Point LCTRL_KEY;
+extern KEY_Point LSHIFT_KEY;
+extern KEY_Point LALT_KEY;
 
-extern KEY_Index RCTRL_KEY;
-extern KEY_Index RSHIFT_KEY;
-extern KEY_Index RALT_KEY;
-extern KEY_Index WIN_KEY;
-extern KEY_Index FN_KEY;
-extern KEY_Index MENU_KEY;
-extern KEY_Index UP_KEY;
-extern KEY_Index LEFT_KEY;
-extern KEY_Index DOWN_KEY;
-extern KEY_Index RIGTH_KEY;
-extern KEY_Index A_KEY;
-extern KEY_Index Q_KEY;
-extern KEY_Index W_KEY;
-extern KEY_Index E_KEY;
-extern KEY_Index CAPS_KEY;
-extern KEY_Index BOLANGXIAN_KEY;
-extern KEY_Index J_KEY;
-extern KEY_Index K_KEY;
-extern KEY_Index L_KEY;
-extern KEY_Index I_KEY;
-extern KEY_Index BACKSPACE_KEY;
+extern KEY_Point RCTRL_KEY;
+extern KEY_Point RSHIFT_KEY;
+extern KEY_Point RALT_KEY;
+extern KEY_Point WIN_KEY;
+extern KEY_Point FN_KEY;
+extern KEY_Point MENU_KEY;
+extern KEY_Point UP_KEY;
+extern KEY_Point LEFT_KEY;
+extern KEY_Point DOWN_KEY;
+extern KEY_Point RIGTH_KEY;
+extern KEY_Point A_KEY;
+extern KEY_Point Q_KEY;
+extern KEY_Point W_KEY;
+extern KEY_Point E_KEY;
+extern KEY_Point CAPS_KEY;
+extern KEY_Point BOLANGXIAN_KEY;
+extern KEY_Point J_KEY;
+extern KEY_Point K_KEY;
+extern KEY_Point L_KEY;
+extern KEY_Point I_KEY;
+extern KEY_Point BACKSPACE_KEY;
 
-extern KEY_Index K_1_KEY;
-extern KEY_Index K_2_KEY;
-extern KEY_Index K_3_KEY;
-extern KEY_Index K_4_KEY;
-extern KEY_Index K_5_KEY;
-extern KEY_Index K_6_KEY;
-extern KEY_Index K_7_KEY;
-extern KEY_Index K_8_KEY;
-extern KEY_Index K_9_KEY;
-extern KEY_Index K_0_KEY;
+extern KEY_Point K_1_KEY;
+extern KEY_Point K_2_KEY;
+extern KEY_Point K_3_KEY;
+extern KEY_Point K_4_KEY;
+extern KEY_Point K_5_KEY;
+extern KEY_Point K_6_KEY;
+extern KEY_Point K_7_KEY;
+extern KEY_Point K_8_KEY;
+extern KEY_Point K_9_KEY;
+extern KEY_Point K_0_KEY;
 
-extern const app_usbd_hid_kbd_t * m_usbHandle;
+extern const app_usbd_hid_kbd_t* m_usbHandle;
 extern uint8_t m_mode;
 void kbd_debug();
 
-
 void transmite_data();
-
 
 #endif
