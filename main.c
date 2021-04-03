@@ -645,6 +645,5 @@ int main(void)
          }
          
 #endif
-       // __WFE();
     }
 }
