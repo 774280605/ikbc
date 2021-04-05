@@ -111,7 +111,7 @@ void kbd_fn_key_handle() {
 
     if (m_kbdContext.m_kbdStatus[K_0_KEY.row][K_0_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        setup_pretty_led();
+        //setup_pretty_led();
         nrf_delay_ms(200);
       }
       reset_kbd_status();

@@ -1,4 +1,11 @@
+/*
+这是RGB键盘红色的PCB哪款
 
+
+
+
+
+*/
 
 #include "kbd_define.h"
 #include "SEGGER_RTT.h"
