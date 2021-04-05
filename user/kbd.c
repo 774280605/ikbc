@@ -52,7 +52,7 @@ void kbd_fn_key_handle() {
     // 1
     if (m_kbdContext.m_kbdStatus[K_1_KEY.row][K_1_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_color_white();
+        set_color_blue();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
@@ -80,7 +80,7 @@ void kbd_fn_key_handle() {
     }
     if (m_kbdContext.m_kbdStatus[K_5_KEY.row][K_5_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_custom_color_1();
+        //set_custom_color_1();
         nrf_delay_ms(200);
       }
 
@@ -88,7 +88,7 @@ void kbd_fn_key_handle() {
     }
     if (m_kbdContext.m_kbdStatus[K_6_KEY.row][K_6_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_custom_color_2();
+        //set_custom_color_2();
         nrf_delay_ms(200);
       }
 
@@ -96,14 +96,14 @@ void kbd_fn_key_handle() {
     }
     if (m_kbdContext.m_kbdStatus[K_7_KEY.row][K_7_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_custom_color_3();
+        //set_custom_color_3();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
     }
     if (m_kbdContext.m_kbdStatus[K_8_KEY.row][K_8_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_custom_color_4();
+        //set_custom_color_4();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
