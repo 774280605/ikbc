@@ -1,7 +1,7 @@
 #include "kbd.h"
 #include "SEGGER_RTT.h"
 #include "app_usbd_hid_kbd_internal.h"
-#include "gpiote_reg.h"
+
 #include "low_energy_timer.h"
 #include "macro.h"
 #include "nrf_delay.h"
@@ -11,20 +11,137 @@
 #include "ws2812.h"
 #include <stdbool.h>
 #include <string.h>
+
+
+typedef struct
+{
+  uint8_t row;
+  uint8_t col;
+
+} KEY_Point;
+
+
+KEY_Point LCTRL_KEY = {3, 0};
+KEY_Point LSHIFT_KEY = {4, 0};
+KEY_Point LALT_KEY = {5, 2};
+
+KEY_Point RCTRL_KEY = {5, 7};
+KEY_Point RSHIFT_KEY = {4, 11};
+KEY_Point RALT_KEY = {5, 4};
+KEY_Point WIN_KEY = {5, 0x01};
+
+KEY_Point FN_KEY = {5, 5};
+KEY_Point MENU_KEY = {5, 6};
+
+KEY_Point UP_KEY = {4, 12};
+KEY_Point LEFT_KEY = {5, 8};
+KEY_Point DOWN_KEY = {5, 9};
+KEY_Point RIGTH_KEY = {5, 10};
+
+KEY_Point A_KEY = {3, 1};
+KEY_Point Q_KEY = {2, 1};
+KEY_Point W_KEY = {2, 2};
+KEY_Point E_KEY = {2, 3};
+KEY_Point CAPS_KEY={5,0};
+KEY_Point BOLANGXIAN_KEY={1,0};
+KEY_Point J_KEY=  {3,7};
+KEY_Point K_KEY=  {3,8};
+KEY_Point L_KEY=  {3,9};
+KEY_Point I_KEY=  {2,8};
+KEY_Point BACKSPACE_KEY={1,13};
+
+
+KEY_Point K_1_KEY={1,1};
+KEY_Point K_2_KEY={1,2};
+KEY_Point K_3_KEY={1,3};
+KEY_Point K_4_KEY={1,4};
+KEY_Point K_5_KEY={1,5};
+KEY_Point K_6_KEY={1,6};
+KEY_Point K_7_KEY={1,7};
+KEY_Point K_8_KEY={1,8};
+KEY_Point K_9_KEY={1,9};
+KEY_Point K_0_KEY={1,10};
+
+
+
 KBD_Context_t m_kbdContext;
 
 
+#define KEY_FN 0
+unsigned char m_Matrix[6][17] = {
+    {_ESC,_F1,_F2,_F3,_F4,_F5,_F6,_F7,_F8,_F9, _F10,_F11,_F12,_PAGEUP,_HOME},
+    {_TILDE,_1,_2,_3,_4,_5,_6,_7,_8,_9,_0, _UNDERSCORE,_PLUS, _BACKSPACE,_INSERT},
+    {_TAB, _Q, _W, _E, _R, _T, _Y, _U, _I, _O, _P,_OPEN_BRACKET, _CLOSE_BRACKET, 
+              _BACKSLASH,_DELETE},
+    {_LEFT_CTRL, _A, _S, _D, _F, _G, _H, _J, _K, _L, _COLON, _QUOTE,_ENTER,_END, _PAGEDOWN},
+    {_LEFT_SHIFT,_Z,_X,_C,_V,_B,_N,_M, _COMMA, _DOT, _SLASH,_RIGHT_SHIFT, _UP, 0, 0},
+    {_CAPS_LOCK, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _RIGHT_ALT, 0, KEY_FN, _RIGHT_CTRL,
+        _LEFT, _DOWN, _RIGHT, 0, 0, 0, 0}};
+
+
+int m_Matrix_Row_Raw[6]={
+    NRF_GPIO_PIN_MAP(0, 1), // row0
+    NRF_GPIO_PIN_MAP(1, 6), // row1
+    NRF_GPIO_PIN_MAP(0, 9), // row2
+    NRF_GPIO_PIN_MAP(1, 4), // row3
+    NRF_GPIO_PIN_MAP(0, 2), // row4
+    NRF_GPIO_PIN_MAP(1, 13), // row5
+
+};
+
+int m_Matrix_Col_Raw[13]={
+    NRF_GPIO_PIN_MAP(1, 0), // col0
+    NRF_GPIO_PIN_MAP(0, 24), // col1
+    NRF_GPIO_PIN_MAP(0, 22), // col2
+    NRF_GPIO_PIN_MAP(0, 13), // col3
+    NRF_GPIO_PIN_MAP(0, 20), // col4
+    NRF_GPIO_PIN_MAP(0, 15), // col5
+    NRF_GPIO_PIN_MAP(0, 4), // col6
+    NRF_GPIO_PIN_MAP(1, 9), // col7
+    NRF_GPIO_PIN_MAP(0, 9), // col8
+    NRF_GPIO_PIN_MAP(0, 5), // col9
+    NRF_GPIO_PIN_MAP(0, 6), // col10
+    NRF_GPIO_PIN_MAP(0, 1), // col11
+    NRF_GPIO_PIN_MAP(0, 26), // col12
+};
+
+
+int m_Matrix_Col_Raw_2_3[17]={
+    NRF_GPIO_PIN_MAP(1, 0), // col0
+    NRF_GPIO_PIN_MAP(0, 24), // col1
+    NRF_GPIO_PIN_MAP(0, 22), // col2
+    NRF_GPIO_PIN_MAP(0, 13), // col3
+    NRF_GPIO_PIN_MAP(0, 20), // col4
+    NRF_GPIO_PIN_MAP(0, 15), // col5
+    NRF_GPIO_PIN_MAP(0, 4), // col6
+    NRF_GPIO_PIN_MAP(1, 9), // col7
+    NRF_GPIO_PIN_MAP(0, 9), // col8
+    NRF_GPIO_PIN_MAP(0, 5), // col9
+    NRF_GPIO_PIN_MAP(0, 6), // col10
+    NRF_GPIO_PIN_MAP(0, 1), // col11
+    NRF_GPIO_PIN_MAP(0, 26), // col12
+    NRF_GPIO_PIN_MAP(0, 0), // col13
+    NRF_GPIO_PIN_MAP(0, 3), // col14
+    NRF_GPIO_PIN_MAP(0, 31), // col15
+    NRF_GPIO_PIN_MAP(0, 29), // col16
+};
+
+
+
+
+
+
 uint32_t m_unuse_pin[5] = {
-    NRF_GPIO_PIN_MAP(0, 24),
-    NRF_GPIO_PIN_MAP(1, 0),
-    NRF_GPIO_PIN_MAP(1, 2),
-    NRF_GPIO_PIN_MAP(1, 4),
-    NRF_GPIO_PIN_MAP(1, 6),
+    NRF_GPIO_PIN_MAP(0, 3),
+    NRF_GPIO_PIN_MAP(0, 12),
+    NRF_GPIO_PIN_MAP(0, 28),
+    NRF_GPIO_PIN_MAP(1, 10),
+    NRF_GPIO_PIN_MAP(1, 11),
 };
 
 void reset_kbd_status() {
   for (uint8_t i = 0; i < 6; ++i) {
-    for (uint8_t j = 0; j < 15; ++j) {
+    for (uint8_t j = 0; j < 17; ++j) {
       m_kbdContext.m_kbdStatus[i][j] = m_kbdContext.m_kbdLastTimeStatus[i][j] = 0;
     }
   }
@@ -145,7 +262,7 @@ void kbd_init() {
 
   kbd_gpio_init();
 
-  led_flash_init();
+  //led_flash_init();
 
   // low_energy_timer_init();
   // kbd_setup_low_energy_tiemr();
@@ -154,140 +271,130 @@ void kbd_init() {
 }
 
 void kbd_gpio_init() {
-  for (int col = 0; col < 15; ++col) {
-    nrf_gpio_cfg_input(m_col[col], NRF_GPIO_PIN_PULLDOWN);
-    // nrf_gpio_cfg_output(m_col[col]);
-
-    // nrf_gpio_pin_clear(m_col[col]);
-    // nrf_gpio_pin_set(m_col[col]);
+  for (int i = 0; i < 17; ++i) {
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw_2_3[i], NRF_GPIO_PIN_PULLDOWN);
   }
 
   // end test
-  for (int row = 0; row < 6; ++row) {
-    nrf_gpio_cfg_input(m_row[row], NRF_GPIO_PIN_PULLDOWN);
-    /*nrf_drv_gpiote_in_config_t in_config=GPIOTE_CONFIG_IN_SENSE_LOTOHI(true);
-
-      in_config.pull=NRF_GPIO_PIN_PULLDOWN;
-      ret_code_t ret;
-      ret = nrf_drv_gpiote_in_init(m_row[row], &in_config, row_in_event_handler);
-      APP_ERROR_CHECK(ret);*/
+  for (int i = 0; i < 6; ++i) {
+    nrf_gpio_cfg_input(m_Matrix_Row_Raw[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_ms(1);
   }
 }
 
 void kbd_scan() {
-  for (int i = 0; i < 15; ++i) {
-    nrf_gpio_cfg_input(m_col[i], NRF_GPIO_PIN_PULLDOWN);
+  for (int i = 0; i < 17; ++i) {
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw_2_3[i], NRF_GPIO_PIN_PULLDOWN);
     // nrf_gpio_pin_clear(m_col[i]);
   }
 
-  // 0 row
-  for (uint8_t col = 0; col < m_per_row_col[0]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_0[col]);
+  // 0 row 13 col
+  for (int i = 0; i < 13; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_0[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[0])) {
-      m_kbdContext.m_kbdStatus[0][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[0])) {
+      m_kbdContext.m_kbdStatus[0][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[0][col] = 0;
+      m_kbdContext.m_kbdStatus[0][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_0[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_0[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 
   // 1 row
-  for (uint8_t col = 0; col < m_per_row_col[1]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_1[col]);
+  for (int i = 0; i < 17; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_1[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[1])) {
-      m_kbdContext.m_kbdStatus[1][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[1])) {
+      m_kbdContext.m_kbdStatus[1][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[1][col] = 0;
+      m_kbdContext.m_kbdStatus[1][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_1[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_1[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw_2_3[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 
   // 2 row
-  for (uint8_t col = 0; col < m_per_row_col[2]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_2[col]);
+  for (int i = 0; i < 17; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_2[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[2])) {
-      m_kbdContext.m_kbdStatus[2][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[2])) {
+      m_kbdContext.m_kbdStatus[2][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[2][col] = 0;
+      m_kbdContext.m_kbdStatus[2][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_2[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw_2_3[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_2[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw_2_3[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 
   // 3 row
-  for (uint8_t col = 0; col < m_per_row_col[3]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_3[col]);
+  for (int i = 0; i < 13; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_3[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[3])) {
-      m_kbdContext.m_kbdStatus[3][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[3])) {
+      m_kbdContext.m_kbdStatus[3][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[3][col] = 0;
+      m_kbdContext.m_kbdStatus[3][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_3[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_3[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 
   // 4 row
-  for (uint8_t col = 0; col < m_per_row_col[4]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_4[col]);
+  for (int i = 0; i < 13; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_4[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw[i]);
 
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[4])) {
-      m_kbdContext.m_kbdStatus[4][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[4])) {
+      m_kbdContext.m_kbdStatus[4][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[4][col] = 0;
+      m_kbdContext.m_kbdStatus[4][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_4[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_4[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 
   // 5 row
-  for (uint8_t col = 0; col < m_per_row_col[5]; ++col) {
-    nrf_gpio_cfg_output(m_row_col_5[col]);
+  for (int i = 0; i < 13; ++i) {
+    nrf_gpio_cfg_output(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    nrf_gpio_pin_set(m_row_col_5[col]);
+    nrf_gpio_pin_set(m_Matrix_Col_Raw[i]);
     nrf_delay_us(40);
-    if (nrf_gpio_pin_read(m_row[5])) {
-      m_kbdContext.m_kbdStatus[5][col] = 1;
+    if (nrf_gpio_pin_read(m_Matrix_Row_Raw[5])) {
+      m_kbdContext.m_kbdStatus[5][i] = 1;
     } else {
-      m_kbdContext.m_kbdStatus[5][col] = 0;
+      m_kbdContext.m_kbdStatus[5][i] = 0;
     }
-    nrf_gpio_pin_clear(m_row_col_5[col]);
+    nrf_gpio_pin_clear(m_Matrix_Col_Raw[i]);
     nrf_delay_us(10);
-    nrf_gpio_cfg_input(m_row_col_5[col], NRF_GPIO_PIN_PULLDOWN);
+    nrf_gpio_cfg_input(m_Matrix_Col_Raw[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(10);
   }
 }
 
 void kbd_saveLastStatus() {
   for (int row = 0; row < 6; ++row) {
-    for (int col = 0; col < 15; ++col) {
+    for (int col = 0; col < 17; ++col) {
       m_kbdContext.m_kbdLastTimeStatus[row][col] = m_kbdContext.m_kbdStatus[row][col];
     }
   }
@@ -295,7 +402,7 @@ void kbd_saveLastStatus() {
 
 uint8_t kbd_StatusIsChanged() {
   for (int i = 0; i < 6; ++i) {
-    for (int j = 0; j < 15; ++j) {
+    for (int j = 0; j < 17; ++j) {
       if (m_kbdContext.m_kbdLastTimeStatus[i][j] != m_kbdContext.m_kbdStatus[i][j]) {
         kbd_saveLastStatus();
 
@@ -309,18 +416,18 @@ uint8_t kbd_StatusIsChanged() {
 
 void kbd_updateHidData() {
   memset(m_kbdContext.m_table, 0, 6);
-  m_kbdContext.m_modifier = KBD_MODIFIER_NONE;
+  m_kbdContext.m_modifier = _NONE;
 
   for (int i = 0; i < 6; ++i) {
-    for (int j = 0; j < 15; ++j) {
+    for (int j = 0; j < 17; ++j) {
       if (m_kbdContext.m_kbdStatus[i][j]) {
         if (kbd_modifier(i, j) == 0)    // common key
         {
-          if (is_macro_key(m_KBD_TABLE[i][j])) {
-            put_macro_key_to_pkt(m_KBD_TABLE[i][j]);
+          if (is_macro_key(m_Matrix[i][j])) {
+            put_macro_key_to_pkt(m_Matrix[i][j]);
          // } else if (kbd_composite_key_handle(i, j)) {
           } else {
-            uint8_t key                 = m_KBD_TABLE[i][j];
+            uint8_t key                 = m_Matrix[i][j];
             uint8_t index               = kbd_availableIndex();
             m_kbdContext.m_table[index] = key;
           }
@@ -343,20 +450,20 @@ uint8_t kbd_availableIndex() {
 
 uint8_t kbd_modifier(uint8_t row, uint8_t col) {
   if (LSHIFT_KEY.row == row && LSHIFT_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_LEFT_SHIFT;
+    m_kbdContext.m_modifier |= _LEFT_SHIFT;
 
   } else if (RSHIFT_KEY.row == row && RSHIFT_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_RIGHT_SHIFT;
+    m_kbdContext.m_modifier |= _RIGHT_SHIFT;
   } else if (LCTRL_KEY.row == row && LCTRL_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_LEFT_CTRL;
+    m_kbdContext.m_modifier |= _LEFT_CTRL;
   } else if (RCTRL_KEY.row == row && RCTRL_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_RIGHT_CTRL;
+    m_kbdContext.m_modifier |= _RIGHT_CTRL;
   } else if (LALT_KEY.row == row && LALT_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_LEFT_ALT;
+    m_kbdContext.m_modifier |= _LEFT_ALT;
   } else if (RALT_KEY.row == row && RALT_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_RIGHT_ALT;
+    m_kbdContext.m_modifier |= _RIGHT_ALT;
   } else if (WIN_KEY.row == row && WIN_KEY.col == col) {
-    m_kbdContext.m_modifier |= KBD_MODIFIER_LEFT_UI;
+    m_kbdContext.m_modifier |= _LEFT_UI;
   } else {
     return 0;
   }
@@ -367,19 +474,19 @@ uint8_t kbd_modifier(uint8_t row, uint8_t col) {
 uint8_t is_create_macroo() {
   if (m_kbdContext.m_kbdStatus[FN_KEY.row][FN_KEY.col]) {
     if (m_kbdContext.m_kbdStatus[Q_KEY.row][Q_KEY.col]) {
-      m_kbdContext.m_currentRecordMacro = m_KBD_TABLE[Q_KEY.row][Q_KEY.col];
+      m_kbdContext.m_currentRecordMacro = m_Matrix[Q_KEY.row][Q_KEY.col];
       return 1;
     }
     if (m_kbdContext.m_kbdStatus[W_KEY.row][W_KEY.col]) {
-      m_kbdContext.m_currentRecordMacro = m_KBD_TABLE[W_KEY.row][W_KEY.col];
+      m_kbdContext.m_currentRecordMacro = m_Matrix[W_KEY.row][W_KEY.col];
       return 1;
     }
     if (m_kbdContext.m_kbdStatus[E_KEY.row][E_KEY.col]) {
-      m_kbdContext.m_currentRecordMacro = m_KBD_TABLE[E_KEY.row][E_KEY.col];
+      m_kbdContext.m_currentRecordMacro = m_Matrix[E_KEY.row][E_KEY.col];
       return 1;
     }
     if (m_kbdContext.m_kbdStatus[A_KEY.row][A_KEY.col]) {
-      m_kbdContext.m_currentRecordMacro = m_KBD_TABLE[A_KEY.row][A_KEY.col];
+      m_kbdContext.m_currentRecordMacro = m_Matrix[A_KEY.row][A_KEY.col];
       return 1;
     }
   }
@@ -389,9 +496,9 @@ uint8_t is_create_macroo() {
 
 uint8_t extract_macro_key() {
   for (uint8_t i = 0; i < 6; ++i) {
-    for (uint8_t j = 0; j < 15; ++j) {
+    for (uint8_t j = 0; j < 17; ++j) {
       if (m_kbdContext.m_kbdStatus[i][j]) {
-        return m_KBD_TABLE[i][j];
+        return m_Matrix[i][j];
       }
     }
   }
@@ -471,79 +578,3 @@ void kbd_send_hid_report() {
   }
 }
 
-uint8_t kbd_composite_key_handle(uint8_t row, uint8_t col) {
-  /*if(m_kbdContext.m_kbdStatus[BOLANGXIAN_KEY.row][BOLANGXIAN_KEY.col] &&
-     row == BOLANGXIAN_KEY.row && col == BOLANGXIAN_KEY.col)
-    {
-
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-            uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_CAPS;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-
-    }
-    //left
-    if(m_kbdContext.m_kbdStatus[J_KEY.row][J_KEY.col] &&
-    row == J_KEY.row && col == J_KEY.col)
-    {
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-            uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_LEFTARROW;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-
-    }
-    //down
-    if(m_kbdContext.m_kbdStatus[K_KEY.row][K_KEY.col] &&
-    row == K_KEY.row && col == K_KEY.col)
-    {
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-            uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_DOWNARROW;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-
-    }
-    //right
-    if( m_kbdContext.m_kbdStatus[L_KEY.row][L_KEY.col] &&
-    row== L_KEY.row&& col == L_KEY.col)
-    {
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-            uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_RIGHTARROW;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-
-    }
-    //up
-    if(m_kbdContext.m_kbdStatus[I_KEY.row][I_KEY.col] &&
-    row == I_KEY.row && col == I_KEY.col)
-    {
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-            uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_UPARROW;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-
-    }
-
-    //delete
-    if(m_kbdContext.m_kbdStatus[BACKSPACE_KEY.row][BACKSPACE_KEY.col]&&
-    row ==BACKSPACE_KEY.row && col == BACKSPACE_KEY.col)
-    {
-        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
-        {
-           uint8_t index= kbd_availableIndex();
-            m_kbdContext.m_table[index]=KEY_DELETE;
-            return MULTIPLE_COMPOSITE_KEY;
-        }
-    }*/
-
-  return SINGLE_COMPOSITE_KEY;
-}

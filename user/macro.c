@@ -6,7 +6,7 @@
  */
 
 #include "macro.h"
-#include "kbd_define.h"
+
 #include "kbd.h"
 
 

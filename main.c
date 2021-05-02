@@ -79,7 +79,7 @@
 #include "nrfx_timer.h"
 #include "nrf_drv_spi.h"
 #include "user/ws2812.h"
-#include "user/gpiote_reg.h"
+
 #include "user/low_energy_timer.h"
 #include "nrf_gzll.h"
 #include "nrf_gzll_error.h"
