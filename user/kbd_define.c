@@ -1,10 +1,5 @@
 /*
 这是RGB键盘红色的PCB哪款
-
-
-
-
-
 */
 
 #include "kbd_define.h"
@@ -12,17 +7,6 @@
 #include "nrf_gpio.h"
 #include "kbd.h"
 
-uint8_t m_hidData[8] = {0};
-
-uint8_t m_kbdTable[6][15] = {0};
-uint8_t m_lastTable[6][15] = {0};
-uint8_t m_modifier = 0;
-uint8_t m_mode = WIRELESS_MODE;
-
-const app_usbd_hid_kbd_t * m_usbHandle;
-
-
-uint8_t m_macro_key;
 
 
 uint8_t m_per_row_col[6] = {15, 15, 15, 15, 13, 11};

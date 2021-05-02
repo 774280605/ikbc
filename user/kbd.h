@@ -125,11 +125,7 @@ enum {
 
 };
 
-enum {
-  ENERGY_SLEEP,
-  ENERGY_NORMAL,
 
-};
 
 typedef struct {
   uint8_t m_modifier;
@@ -141,13 +137,11 @@ typedef struct {
   uint8_t m_currentRecordMacro;
   uint8_t m_connMode;
   const app_usbd_hid_kbd_t* m_usbHandle;
-  uint8_t m_energyMode;
 
 } KBD_Context_t;
 
 extern KBD_Context_t m_kbdContext;
 
-extern bool m_lowEnergyTimeout;
 
 uint8_t kbd_availableIndex();
 

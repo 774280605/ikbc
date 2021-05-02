@@ -12,9 +12,7 @@
 #include <stdbool.h>
 #include <string.h>
 KBD_Context_t m_kbdContext;
-uint32_t m_lowEnergyCount = 0;
 
-bool m_lowEnergyTimeout = false;
 
 uint32_t m_unuse_pin[5] = {
     NRF_GPIO_PIN_MAP(0, 24),
@@ -320,7 +318,7 @@ void kbd_updateHidData() {
         {
           if (is_macro_key(m_KBD_TABLE[i][j])) {
             put_macro_key_to_pkt(m_KBD_TABLE[i][j]);
-          } else if (kbd_composite_key_handle(i, j)) {
+         // } else if (kbd_composite_key_handle(i, j)) {
           } else {
             uint8_t key                 = m_KBD_TABLE[i][j];
             uint8_t index               = kbd_availableIndex();

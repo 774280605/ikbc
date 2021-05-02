@@ -127,13 +127,13 @@
       <file file_name="../../../user/kbd_define.c" />
       <file file_name="../../../user/kbd_define.h" />
       <file file_name="../../../user/low_energy_timer.c" />
-      <file file_name="../../../user/low_energy_timer.h" />
       <file file_name="../../../user/macro.c" />
       <file file_name="../../../user/macro.h" />
       <file file_name="../../../user/ws2812.c" />
       <file file_name="../../../user/ws2812.h" />
       <file file_name="../../../user/gpiote_reg.c" />
       <file file_name="../../../user/gpiote_reg.h" />
+      <file file_name="../../../user/low_energy_timer.h" />
     </folder>
     <configuration
       Name="Release"

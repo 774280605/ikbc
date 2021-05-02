@@ -100,19 +100,10 @@
 #define KEY_R_SHIFT 0xE5
 #define KEY_R_ALT 0xE6
 
-#define KEY_NULL 0
-#define KEY_XXX 0
 
-//控制键的唯一操作
-#define LEFT_SHIFT_BIT 1
-#define RIGHT_SHIFT_BIT 5
-#define LEFT_CTRL_BIT 0
-#define RIGHT_CRTL_BIT 4
-#define LEFT_ALT_BIT 2
-#define RIGHT_ALT_BIT 6
-#define WIN_KEY_BIT 3
 
-enum {
+
+enum _ConnType{
   WIRE_MODE,
   WIRELESS_MODE,
 
@@ -125,10 +116,7 @@ typedef struct
 
 } KEY_Point;
 
-extern uint8_t m_modifier;
-extern uint8_t m_macro_key;
 
-extern uint8_t m_hidData[8];
 
 extern uint32_t m_row[6];
 

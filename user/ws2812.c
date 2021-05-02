@@ -334,7 +334,7 @@ void send_color(RGB_t* grb) {
 
   //¿ªÆô27¸öµÆ
   // for(int i=0;i<84;++i)
-  for (int i = 0; i < 25; ++i) {
+  for (int i = 0; i < 84; ++i) {
     APP_ERROR_CHECK(nrf_drv_spi_transfer(&spi, rgb_val, 24, NULL, 0));
   }
 
