@@ -105,8 +105,8 @@
       <file file_name="../../../../../../components/libraries/bsp/bsp_cli.c" />
     </folder>
     <folder Name="Application">
-      <file file_name="../../../main.c" />
       <file file_name="../config/sdk_config.h" />
+      <file file_name="../../../main.c" />
     </folder>
     <folder Name="nRF_Segger_RTT">
       <file file_name="../../../../../../external/segger_rtt/SEGGER_RTT.c" />
@@ -124,15 +124,16 @@
     <folder Name="USER">
       <file file_name="../../../user/kbd.c" />
       <file file_name="../../../user/kbd.h" />
-      <file file_name="../../../user/kbd_define.c" />
-      <file file_name="../../../user/kbd_define.h" />
-      <file file_name="../../../user/low_energy_timer.c" />
+      <file file_name="../../../user/low_energy_timer.c">
+        <configuration
+          Name="Release"
+          gcc_c_language_standard="gnu99"
+          gcc_cplusplus_language_standard="gnu++98" />
+      </file>
       <file file_name="../../../user/macro.c" />
       <file file_name="../../../user/macro.h" />
       <file file_name="../../../user/ws2812.c" />
       <file file_name="../../../user/ws2812.h" />
-      <file file_name="../../../user/gpiote_reg.c" />
-      <file file_name="../../../user/gpiote_reg.h" />
       <file file_name="../../../user/low_energy_timer.h" />
     </folder>
     <configuration

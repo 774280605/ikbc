@@ -79,7 +79,6 @@
 #include "nrfx_timer.h"
 #include "nrf_drv_spi.h"
 #include "user/ws2812.h"
-#include "user/gpiote_reg.h"
 #include "user/low_energy_timer.h"
 #include "nrf_gzll.h"
 #include "nrf_gzll_error.h"
@@ -543,8 +542,10 @@ static void keyboard_scan_timer_handler(void * p_context)
 }
 
 
+
 int main(void)
 {
+
     ret_code_t ret;
     static const app_usbd_config_t usbd_config = {
         .ev_state_proc = usbd_user_ev_handler,

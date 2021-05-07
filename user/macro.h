@@ -11,26 +11,11 @@
 
 
 
-#define MACRO_TABLE_ROW 6
-#define MACRO_TABLE_COL 4
 
-
-
-
-
-
-
-/*
- * 
- * 0	1 2   3
- * ID KEY,KEY,KEY
- *
- */
-
-extern uint8_t macro_table[MACRO_TABLE_ROW][MACRO_TABLE_COL];
-
-
-
+typedef struct {
+  char key;
+  char value[6];
+}macro_matrix_t; 
 
 
 uint8_t is_macro_key(uint8_t key);

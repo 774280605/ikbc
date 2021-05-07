@@ -2,7 +2,7 @@
 #define __USER_KBD__
 
 #include "app_usbd_hid_kbd.h"
-#include "kbd_define.h"
+
 #include "nrf_gpio.h"
 
 #include <stdbool.h>
@@ -125,6 +125,19 @@ enum {
 
 };
 
+enum _ConnType{
+  WIRE_MODE,
+  WIRELESS_MODE,
+
+};
+
+
+typedef struct
+{
+  uint8_t row;
+  uint8_t col;
+
+} KEY_Point;
 
 
 typedef struct {

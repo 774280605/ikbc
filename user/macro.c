@@ -6,86 +6,85 @@
  */
 
 #include "macro.h"
-#include "kbd_define.h"
+
 #include "kbd.h"
 
+macro_matrix_t m_macro[3];
 
-uint8_t macro_index=0;
+uint8_t macro_index = 0;
 
-uint8_t macro_table[MACRO_TABLE_ROW][MACRO_TABLE_COL]={0};
-
-
-
-uint8_t is_macro_key(uint8_t key){
-	for(uint8_t i=0;i<MACRO_TABLE_ROW;++i){
-            if(macro_table[i][0]==key){
-                    return 1;
-            }
-	}
-	return 0;
-}
-
-void reset_macro_table(){
-	for(uint8_t i=0;i<MACRO_TABLE_ROW;++i)
-        {
-		for(uint8_t j=0;j<MACRO_TABLE_COL;++j)
-                {
-			macro_table[i][j]=0x00;
-		}
-	}
-	macro_index=0;
-}
-
-
-void put_macro_key(uint8_t id,uint8_t key){
-    for(uint8_t i=0;i<MACRO_TABLE_ROW;++i)
+uint8_t is_macro_key(uint8_t key)
+{
+    for (int i = 0; i < 3; ++i)
     {
-        if(macro_table[i][0]==id)
+        if (m_macro[i].key == key)
         {
-            for(uint8_t col=1;col<MACRO_TABLE_COL;++col)
-            {
-                    if(macro_table[i][col]==0x00)
-                    {
-                            macro_table[i][col]=key;
-                            return;
-                    }
-            }
-
+            return 1;
         }
     }
+    return 0;
 }
 
-void put_macro_id(uint8_t id){
-	for(uint8_t i=0;i<MACRO_TABLE_ROW;++i)
-        {
-		if(macro_table[i][0]==0x00)
-                {
-			macro_table[i][0]=id;
-			break;
-		}
-	}
-	macro_index++;
+void reset_macro_table()
+{
+    memset(m_macro, 0, sizeof(macro_matrix_t) * 3);
+    macro_index = 0;
+}
 
-	macro_index%= MACRO_TABLE_ROW;
+void put_macro_key(uint8_t id, uint8_t key)
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        if (m_macro[i].key == id)
+        {
+            for (int j = 0; j < 6; ++j)
+            {
+                if (m_macro[i].value[j] == 0)
+                {
+                    m_macro[i].value[j] = key;
+                }
+            }
+        }
+    }
+
+    return;
+}
+
+void put_macro_id(uint8_t id)
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        if (m_macro[i].key == 0x00)
+        {
+            m_macro[i].key = id;
+            break;
+        }
+    }
+    macro_index++;
+
+    macro_index %= 3;
 }
 
 //判断是宏才进入此函数
-void put_macro_key_to_pkt(uint8_t key){
-    for(uint8_t i=0;i<MACRO_TABLE_ROW;++i)
+void put_macro_key_to_pkt(uint8_t key)
+{
+    for (int i = 0; i < 3; ++i)
     {
-        if(macro_table[i][0]==key)
+        if (m_macro[i].key == key)
         {
-            for(uint8_t col=1;col<MACRO_TABLE_COL;++col)
+            for (int j = 0; j < 6; ++j)
             {
-              if(macro_table[i][col]==0)
-                      break;
-              for(uint8_t j=0;j<6;++j)
-              {
-                  if(m_kbdContext.m_table[j]==0x00){
-                        m_kbdContext.m_table[j]=macro_table[i][col];
-                        break;
-                  }
-              }
+                if (m_macro[i].value[j] != 0)
+                {
+                    for (int x = 0; x < 6; ++x)
+                    {
+                        if (m_kbdContext.m_table[x] == 0x00)
+                        {
+                            m_kbdContext.m_table[x] = m_macro[i].value[j];
+                            break;
+                        }
+                    }
+                }
             }
             return;
         }
