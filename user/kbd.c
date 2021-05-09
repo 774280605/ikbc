@@ -25,18 +25,18 @@ KEY_Point LCTRL_KEY = {3, 0};
 KEY_Point LSHIFT_KEY = {4, 0};
 KEY_Point LALT_KEY = {5, 2};
 
-KEY_Point RCTRL_KEY = {5, 7};
+KEY_Point RCTRL_KEY = {5, 9};
 KEY_Point RSHIFT_KEY = {4, 11};
-KEY_Point RALT_KEY = {5, 4};
-KEY_Point WIN_KEY = {5, 0x01};
+KEY_Point RALT_KEY = {5, 6};
+KEY_Point WIN_KEY = {5, 1};
 
-KEY_Point FN_KEY = {5, 5};
-KEY_Point MENU_KEY = {5, 6};
+KEY_Point FN_KEY = {5, 7};
+KEY_Point MENU_KEY = {5, 8};
 
 KEY_Point UP_KEY = {4, 12};
-KEY_Point LEFT_KEY = {5, 8};
-KEY_Point DOWN_KEY = {5, 9};
-KEY_Point RIGTH_KEY = {5, 10};
+KEY_Point LEFT_KEY = {5, 10};
+KEY_Point DOWN_KEY = {5, 11};
+KEY_Point RIGTH_KEY = {5, 12};
 
 KEY_Point A_KEY = {3, 1};
 KEY_Point Q_KEY = {2, 1};
@@ -69,18 +69,17 @@ KBD_Context_t m_kbdContext;
 
 #define KEY_FN 0
 unsigned char m_Matrix[6][17] = {
-    {_ESC,_F1,_F2,_F3,_F4,_F5,_F6,_F7,_F8,_F9, _F10,_F11,_F12,_PAGEUP,_HOME},
-    {_TILDE,_1,_2,_3,_4,_5,_6,_7,_8,_9,_0, _UNDERSCORE,_PLUS, _BACKSPACE,_INSERT},
-    {_TAB, _Q, _W, _E, _R, _T, _Y, _U, _I, _O, _P,_OPEN_BRACKET, _CLOSE_BRACKET, 
-              _BACKSLASH,_DELETE},
-    {_LEFT_CTRL, _A, _S, _D, _F, _G, _H, _J, _K, _L, _COLON, _QUOTE,_ENTER,_END, _PAGEDOWN},
-    {_LEFT_SHIFT,_Z,_X,_C,_V,_B,_N,_M, _COMMA, _DOT, _SLASH,_RIGHT_SHIFT, _UP, 0, 0},
-    {_CAPS_LOCK, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _RIGHT_ALT, 0, KEY_FN, _RIGHT_CTRL,
-        _LEFT, _DOWN, _RIGHT, 0, 0, 0, 0}};
+    {_ESC,_F1,_F2,_F3,_F4,_F5,_F6,_F7,_F8,_F9, _F10,_F11,_F12,0,0,0,0},
+    {_TILDE,_1,_2,_3,_4,_5,_6,_7,_8,_9,_0, _UNDERSCORE,_PLUS, _BACKSPACE,_INSERT,_HOME,_PAGEUP},
+    {_TAB, _Q, _W, _E, _R, _T, _Y, _U, _I, _O, _P,_OPEN_BRACKET, _CLOSE_BRACKET,   _BACKSLASH,_DELETE,_END,_PAGEDOWN},
+    {_LEFT_CTRL, _A, _S, _D, _F, _G, _H, _J, _K, _L, _COLON, _QUOTE,_ENTER,0, 0,0,0},
+    {_LEFT_SHIFT,_Z,_X,_C,_V,_B,_N,_M, _COMMA, _DOT, _SLASH,_RIGHT_SHIFT, _UP, 0, 0,0,0},
+    {_CAPS_LOCK, _LEFT_UI, _LEFT_ALT, _SPACEBAR,_SPACEBAR,_SPACEBAR, _RIGHT_ALT, KEY_FN,0 , _RIGHT_CTRL,
+      _LEFT, _DOWN, _RIGHT, 0, 0, 0, 0}};
 
 
 int m_Matrix_Row_Raw[6]={
-    NRF_GPIO_PIN_MAP(0, 1), // row0
+    NRF_GPIO_PIN_MAP(0, 10), // row0
     NRF_GPIO_PIN_MAP(1, 6), // row1
     NRF_GPIO_PIN_MAP(0, 9), // row2
     NRF_GPIO_PIN_MAP(1, 4), // row3
@@ -98,7 +97,7 @@ int m_Matrix_Col_Raw[13]={
     NRF_GPIO_PIN_MAP(0, 15), // col5
     NRF_GPIO_PIN_MAP(0, 4), // col6
     NRF_GPIO_PIN_MAP(1, 9), // col7
-    NRF_GPIO_PIN_MAP(0, 9), // col8
+    NRF_GPIO_PIN_MAP(0, 8), // col8
     NRF_GPIO_PIN_MAP(0, 5), // col9
     NRF_GPIO_PIN_MAP(0, 6), // col10
     NRF_GPIO_PIN_MAP(0, 1), // col11
@@ -115,13 +114,13 @@ int m_Matrix_Col_Raw_2_3[17]={
     NRF_GPIO_PIN_MAP(0, 15), // col5
     NRF_GPIO_PIN_MAP(0, 4), // col6
     NRF_GPIO_PIN_MAP(1, 9), // col7
-    NRF_GPIO_PIN_MAP(0, 9), // col8
+    NRF_GPIO_PIN_MAP(0, 8), // col8
     NRF_GPIO_PIN_MAP(0, 5), // col9
     NRF_GPIO_PIN_MAP(0, 6), // col10
     NRF_GPIO_PIN_MAP(0, 1), // col11
     NRF_GPIO_PIN_MAP(0, 26), // col12
     NRF_GPIO_PIN_MAP(0, 0), // col13
-    NRF_GPIO_PIN_MAP(0, 3), // col14
+    NRF_GPIO_PIN_MAP(0, 30), // col14
     NRF_GPIO_PIN_MAP(0, 31), // col15
     NRF_GPIO_PIN_MAP(0, 29), // col16
 };
@@ -255,10 +254,10 @@ void kbd_init() {
   memset(&m_kbdContext, 0, sizeof(m_kbdContext));
   m_kbdContext.m_connMode = WIRELESS_MODE;
 
-  for (uint8_t i = 0; i < 5; ++i) {
+ /* for (uint8_t i = 0; i < 5; ++i) {
     nrf_gpio_cfg_input(m_unuse_pin[i], NRF_GPIO_PIN_PULLDOWN);
     nrf_delay_us(2);
-  }
+  }*/
 
   kbd_gpio_init();
 

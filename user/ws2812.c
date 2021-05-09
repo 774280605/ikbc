@@ -181,11 +181,14 @@ void spi_event_handler(nrf_drv_spi_evt_t const* p_event, void* p_context) {
 void ws2812_init() {
   nrf_drv_spi_config_t spi_config = NRF_DRV_SPI_DEFAULT_CONFIG;
   spi_config.frequency            = NRF_DRV_SPI_FREQ_8M;
-  spi_config.ss_pin               = NRF_GPIO_PIN_MAP(0, 24);
-  spi_config.miso_pin             = NRF_GPIO_PIN_MAP(1, 0);
-  spi_config.mosi_pin             = NRF_GPIO_PIN_MAP(0, 20);
-  spi_config.sck_pin              = NRF_GPIO_PIN_MAP(1, 2);
+  spi_config.ss_pin               = NRF_GPIO_PIN_MAP(0, 28);
+  spi_config.miso_pin             = NRF_GPIO_PIN_MAP(0, 3);
+  spi_config.mosi_pin             = NRF_GPIO_PIN_MAP(1, 2);
+  spi_config.sck_pin              = NRF_GPIO_PIN_MAP(1, 11);
   APP_ERROR_CHECK(nrf_drv_spi_init(&spi, &spi_config, NULL, NULL));
+
+
+  //set_color_green();
 }
 
 void set_color_white() {
@@ -334,7 +337,7 @@ void send_color(RGB_t* grb) {
 
   //¿ªÆô27¸öµÆ
   // for(int i=0;i<84;++i)
-  for (int i = 0; i < 84; ++i) {
+  for (int i = 0; i < 86; ++i) {
     APP_ERROR_CHECK(nrf_drv_spi_transfer(&spi, rgb_val, 24, NULL, 0));
   }
 
