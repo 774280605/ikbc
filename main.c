@@ -655,7 +655,7 @@ int main(void)
     }
 
     clocks_start();
-
+  
 
 #ifdef TEST_USB
     kbd_init();
