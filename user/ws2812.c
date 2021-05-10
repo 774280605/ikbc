@@ -7,6 +7,22 @@ APP_TIMER_DEF(m_flash_timer);
 
 RGB_t m_rgb;
 
+int m_lists_index=0;
+RGB_t m_lists[8]={
+{.r=155 ,.g=48 ,.b=255},//紫色
+{.r=255 ,.g=48 ,.b=48},//红色
+{.r=0 ,.g=250 ,.b=154},//红色青色
+{.r=0 ,.g=245 ,.b=255},//红色青色
+{.r=0 ,.g=245 ,.b=255},//红色青色
+{.r=0 ,.g=255 ,.b=127},//红色青色
+{.r=255 ,.g=106 ,.b=106},//红色青色
+{.r=255 ,.g=20 ,.b=147},//红色青色
+
+};
+
+
+
+
 bool m_prettyLedRun = false;
 
 void RGB_TO_HSV(const COLOR_RGB* input, COLOR_HSV* output) {
@@ -191,20 +207,20 @@ void ws2812_init() {
   //set_color_green();
 }
 
-void set_color_white() {
+void ws2812_set_close() {
   RGB_t rgb;
-  rgb.b = 0xff;
-  rgb.r = 0xff;
-  rgb.g = 0xff;
+  rgb.b = 0;
+  rgb.r = 0;
+  rgb.g = 0;
   send_color(&rgb);
   m_rgb = rgb;
 }
-void set_color_red() {
+void ws2812_set_red() {
   RGB_t rgb = {.b = 0, .g = 0, .r = 0xff};
   send_color(&rgb);
   m_rgb = rgb;
 }
-void set_color_green() {
+void ws2812_set_green() {
   RGB_t rgb;
   rgb.b = 0;
   rgb.r = 0;
@@ -214,18 +230,19 @@ void set_color_green() {
 }
 void set_color_blue() {
   RGB_t rgb;
-  rgb.b = 0xff;
+ 
   rgb.r = 0;
   rgb.g = 0;
+   rgb.b = 0xff;
   send_color(&rgb);
   m_rgb = rgb;
 }
 
 void set_custom_color_1() {
-  RGB_t rgb;
-  rgb.g = 0xff;
-  rgb.r = 0xff;
-  rgb.b = 0;
+  RGB_t rgb; 
+  rgb.r = 155 ; 
+  rgb.g = 48 ;
+  rgb.b = 255;
   send_color(&rgb);
   m_rgb = rgb;
 }
@@ -261,30 +278,31 @@ uint32_t m_flashCount = 0;
 static void led_flash_handler(void* p_context) {
   ++m_flashCount;
   if (m_flashCount % 2 == 1)
-    set_color_green();
+    ws2812_set_green();
   else
     set_color_blue();
 }
 
 static void led_mode_handler(void* ctx) {
   RGB_t rgb;
-  rgb.g = rand() % 255;
-  rgb.r = rand() % 255;
-  rgb.b = rand() % 255;
-
+  rgb=  m_lists[m_lists_index];
   send_color(&rgb);
+  m_lists_index++;
+  m_lists_index%=8;
+
+
 }
 
 void led_flash_init() {
   ret_code_t ret;
-  ret = app_timer_create(&m_led_timer, APP_TIMER_MODE_REPEATED, led_flash_handler);
-  APP_ERROR_CHECK(ret);
+  //ret = app_timer_create(&m_led_timer, APP_TIMER_MODE_REPEATED, led_flash_handler);
+  //APP_ERROR_CHECK(ret);
   ret = app_timer_create(&m_flash_timer, APP_TIMER_MODE_REPEATED, led_mode_handler);
   APP_ERROR_CHECK(ret);
 }
 
 void pretty_led_start() {
-  app_timer_start(m_flash_timer, APP_TIMER_TICKS(200), NULL);
+  app_timer_start(m_flash_timer, APP_TIMER_TICKS(10000), NULL);
 }
 void pretty_led_stop() {
   app_timer_stop(m_flash_timer);
@@ -306,7 +324,7 @@ void led_flash_start() {
 
 void led_flash_stop() {
   app_timer_stop(m_led_timer);
-  set_color_green();
+  ws2812_set_green();
 }
 
 void send_color(RGB_t* grb) {

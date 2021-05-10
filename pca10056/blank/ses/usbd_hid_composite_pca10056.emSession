@@ -54,8 +54,8 @@
  </TraceWindow>
  <Watch1>
   <Watches active="1" update="Never">
-   <Watchpoint expression="c_hsv" name="c_hsv" radix="-1" linenumber="429" filename="../../../user/ws2812.c"/>
-   <Watchpoint expression="c_rgb" name="c_rgb" radix="-1" linenumber="420" filename="../../../user/ws2812.c"/>
+   <Watchpoint expression="c_hsv" name="c_hsv" radix="-1" linenumber="438" filename="../../../user/ws2812.c"/>
+   <Watchpoint expression="c_rgb" name="c_rgb" radix="-1" linenumber="429" filename="../../../user/ws2812.c"/>
   </Watches>
  </Watch1>
  <Watch2>
@@ -68,13 +68,16 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="662" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="0" top="643" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="10" y="140" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.c" useBinaryEdit="0" left="0" path="../../../user/kbd.h" selected="0" top="122" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="7" y="221" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.h" useBinaryEdit="0" left="0" path="../../../user/kbd.c" selected="1" top="201" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="49" useTextEdit="1" openedFrom="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/ws2812.c" useBinaryEdit="0" left="0" path="../../../user/ws2812.h" selected="0" top="36" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="190" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/main.c" useBinaryEdit="0" left="0" path="../../../user/ws2812.c" selected="0" top="159" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="542" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../main.c" selected="0" top="526" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="66" y="177" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.c" useBinaryEdit="0" left="0" path="../../../user/kbd.h" selected="0" top="155" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="196" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.h" useBinaryEdit="0" left="0" path="../../../user/kbd.c" selected="0" top="168" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="45" useTextEdit="1" openedFrom="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/ws2812.c" useBinaryEdit="0" left="0" path="../../../user/ws2812.h" selected="0" top="36" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="15" y="235" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.c" useBinaryEdit="0" left="0" path="../../../user/ws2812.c" selected="1" top="205" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="91" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../user/macro.c" selected="0" top="75" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../../../user/macro.h" selected="0" top="18" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="949" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/main.c" useBinaryEdit="0" left="0" path="../../../../../../modules/nrfx/mdk/nrf52840.h" selected="0" top="925" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="4947" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/main.c" useBinaryEdit="0" left="0" path="../../../../../../modules/nrfx/mdk/nrf52840_bitfields.h" selected="0" top="4935" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="599" useTextEdit="1" openedFrom="E:/work/SDK/nRF5_SDK_17.0.2_d674dde/examples/peripheral/usbd_hid_composite/user/kbd.h" useBinaryEdit="0" left="0" path="../../../../../../components/libraries/usbd/class/hid/kbd/app_usbd_hid_kbd.c" selected="0" top="581" codecName="Default"/>
  </Files>
  <ARMCrossStudioWindow activeProject="usbd_hid_composite_pca10056_1702" fileDialogDefaultFilter="*.asm;*.s;*.inc" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="../../../nrf_gzll.c&#xa;&#xa;D:/Program Files/SEGGER/SEGGER Embedded Studio for ARM 5.32a/source/thumb_crt0.s&#xa;&#xa;L:/SDK/nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/ses_startup_nrf_common.s&#xa;" fileDialogInitialDirectory="G:/work/SDK/nRF5_SDK_17.0.2_d674dde/components/proprietary_rf/gzll/gcc" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

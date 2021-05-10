@@ -34,11 +34,11 @@ void ws2812_init();
 
 
 //白色
-void set_color_white();
+void ws2812_set_close();
 //红色
-void set_color_red();
+void ws2812_set_red();
 //绿色
-void set_color_green();
+void ws2812_set_green();
 //蓝色
 void set_color_blue();
 

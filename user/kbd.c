@@ -166,21 +166,21 @@ void kbd_fn_key_handle() {
     // 1
     if (m_kbdContext.m_kbdStatus[K_1_KEY.row][K_1_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_color_blue();
+        ws2812_set_close();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
     }
     if (m_kbdContext.m_kbdStatus[K_2_KEY.row][K_2_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_color_green();
+        ws2812_set_green();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
     }
     if (m_kbdContext.m_kbdStatus[K_3_KEY.row][K_3_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        set_color_red();
+        ws2812_set_red();
         nrf_delay_ms(200);
       }
       reset_kbd_status();
@@ -194,7 +194,7 @@ void kbd_fn_key_handle() {
     }
     if (m_kbdContext.m_kbdStatus[K_5_KEY.row][K_5_KEY.col]) {
       if (m_kbdContext.m_connMode == WIRE_MODE) {
-        //set_custom_color_1();
+        set_custom_color_1();
         nrf_delay_ms(200);
       }
 
