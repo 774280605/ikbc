@@ -5,6 +5,8 @@
 #include <string.h>
 APP_TIMER_DEF(m_led_timer);
 APP_TIMER_DEF(m_flash_timer);
+APP_TIMER_DEF(m_macro_timer);
+
 
 RGB_t m_rgb;
 
@@ -20,6 +22,31 @@ RGB_t m_lists[8] = {
     {.r = 255, .g = 20, .b = 147},  //ºìÉ«ÇàÉ«
 
 };
+
+enum {
+    F12_Pos=0,
+    F11_Pos=1,
+    F10_Pos=2,
+    F9_Pos=3,
+    F8_Pos=4,
+    F7_Pos=5,
+    F6_Pos=6,
+    F5_Pos=7,
+    F4_Pos=8,
+    F3_Pos=9,
+    F2_Pos=10,
+    F1_Pos=11,
+    ESC_Pos=12,
+
+    PAGEUP_Pos=13,
+
+
+};
+
+
+
+
+
 
 char m_ws2812_table[86]={0};
 
@@ -230,6 +257,7 @@ void ws2812_init()
 
 void ws2812_set_close()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.b = 0;
     rgb.r = 0;
@@ -239,12 +267,14 @@ void ws2812_set_close()
 }
 void ws2812_set_red()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb = {.b = 0, .g = 0, .r = 0xff};
     ws2812_send_color(&rgb);
     m_rgb = rgb;
 }
 void ws2812_set_green()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.b = 0;
     rgb.r = 0;
@@ -254,6 +284,7 @@ void ws2812_set_green()
 }
 void ws2812_color_blue()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb;
 
     rgb.r = 0;
@@ -265,6 +296,7 @@ void ws2812_color_blue()
 
 void set_custom_color_1()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.r = 155;
     rgb.g = 48;
@@ -275,6 +307,7 @@ void set_custom_color_1()
 
 void set_custom_color_2()
 {
+     memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.g = 0xff;
     rgb.r = 0;
@@ -285,6 +318,7 @@ void set_custom_color_2()
 
 void set_custom_color_3()
 {
+     memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.g = 0;
     rgb.r = 0xff;
@@ -295,6 +329,7 @@ void set_custom_color_3()
 
 void set_custom_color_4()
 {
+    memset(m_ws2812_table,1,86); 
     RGB_t rgb;
     rgb.g = 0;
     rgb.r = 0x0f;
@@ -322,12 +357,22 @@ static void led_mode_handler(void *ctx)
     m_lists_index %= 8;
 }
 
+static void ws2812_macro_timer_handler(void*ctx)
+{
+    RGB_t rgb={.b=0,.g=0,.r=0xff};
+    ws2812_send_color(&rgb);
+    
+}
+
 void led_flash_init()
 {
     ret_code_t ret;
     //ret = app_timer_create(&m_led_timer, APP_TIMER_MODE_REPEATED, led_flash_handler);
     //APP_ERROR_CHECK(ret);
     ret = app_timer_create(&m_flash_timer, APP_TIMER_MODE_REPEATED, led_mode_handler);
+    APP_ERROR_CHECK(ret);
+
+     ret = app_timer_create(&m_macro_timer, APP_TIMER_MODE_SINGLE_SHOT, ws2812_macro_timer_handler);
     APP_ERROR_CHECK(ret);
 }
 
@@ -465,4 +510,32 @@ void decrease_light()
     rgb.g = c_rgb.G;
     ws2812_send_color(&rgb);
     m_rgb = rgb;
+}
+
+
+void ws2812_macro_mode_setup()
+{
+    memset(m_ws2812_table,0,86);
+}
+
+void ws2812_macro_put_point(int pos)
+{
+    if(pos<0 || pos >85)
+        return ;
+
+    m_ws2812_table[pos]=1;
+}
+int kbd_key_convert_pos(char key)
+{
+    switch(key)
+    {
+        case F12_Pos:
+            
+            break;
+
+        default:
+            break;
+    }
+
+    return 0;
 }

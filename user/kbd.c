@@ -29,6 +29,8 @@ KEY_Point RALT_KEY = {5, 6};
 KEY_Point WIN_KEY = {5, 1};
 
 KEY_Point FN_KEY = {5, 7};
+KEY_Point LEFT_FN_KEY = {5, 0};
+
 KEY_Point MENU_KEY = {5, 8};
 
 KEY_Point UP_KEY = {4, 12};
@@ -68,7 +70,7 @@ unsigned char m_Matrix[6][17] = {
     {_TAB, _Q, _W, _E, _R, _T, _Y, _U, _I, _O, _P, _OPEN_BRACKET, _CLOSE_BRACKET, _BACKSLASH, _DELETE, _END, _PAGEDOWN},
     {_LEFT_CTRL, _A, _S, _D, _F, _G, _H, _J, _K, _L, _COLON, _QUOTE, _ENTER, 0, 0, 0, 0},
     {_LEFT_SHIFT, _Z, _X, _C, _V, _B, _N, _M, _COMMA, _DOT, _SLASH, _RIGHT_SHIFT, _UP, 0, 0, 0, 0},
-    {_CAPS_LOCK, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _SPACEBAR, _SPACEBAR, _RIGHT_ALT, KEY_FN, 0, _RIGHT_CTRL,
+    {0, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _SPACEBAR, _SPACEBAR, _CAPS_LOCK/*_RIGHT_ALT*/, KEY_FN, 0, _RIGHT_CTRL,
         _LEFT, _DOWN, _RIGHT, 0, 0, 0, 0}};
 
 int m_Matrix_Row_Raw[6] = {
@@ -449,7 +451,7 @@ void kbd_saveLastStatus()
     }
 }
 
-uint8_t kbd_StatusIsChanged()
+uint8_t kbd_status_is_changed()
 {
     for (int i = 0; i < 6; ++i)
     {
@@ -467,7 +469,7 @@ uint8_t kbd_StatusIsChanged()
     return 0;
 }
 
-void kbd_updateHidData()
+void kbd_update_hid_data()
 {
     memset(m_kbdContext.m_table, 0, 6);
     m_kbdContext.m_modifier = _NONE;
@@ -483,7 +485,9 @@ void kbd_updateHidData()
                     if (is_macro_key(m_Matrix[i][j]))
                     {
                         put_macro_key_to_pkt(m_Matrix[i][j]);
-                        // } else if (kbd_composite_key_handle(i, j)) {
+                    }
+                    else if (kbd_composite_key_handle(i, j))
+                    {
                     }
                     else
                     {
@@ -533,10 +537,10 @@ uint8_t kbd_modifier(uint8_t row, uint8_t col)
     {
         m_kbdContext.m_modifier |= _LEFT_ALT;
     }
-    else if (RALT_KEY.row == row && RALT_KEY.col == col)
+   /* else if (RALT_KEY.row == row && RALT_KEY.col == col)
     {
         m_kbdContext.m_modifier |= _RIGHT_ALT;
-    }
+    }*/
     else if (WIN_KEY.row == row && WIN_KEY.col == col)
     {
         m_kbdContext.m_modifier |= _LEFT_UI;
@@ -619,7 +623,7 @@ void start_record_macro()
         do
         {
             kbd_scan();
-            if (kbd_StatusIsChanged() == 0)
+            if (kbd_status_is_changed() == 0)
             {
                 continue;
             }
@@ -681,4 +685,82 @@ void kbd_send_hid_report()
     {
         send_hid_data(m_kbdContext.m_usbHandle, (uint8_t *)&m_kbdContext);
     }
+}
+
+uint8_t kbd_composite_key_handle(uint8_t row, uint8_t col)
+{
+   /* if(m_kbdContext.m_kbdStatus[BOLANGXIAN_KEY.row][BOLANGXIAN_KEY.col] &&
+     row == BOLANGXIAN_KEY.row && col == BOLANGXIAN_KEY.col)
+    {
+
+        if(m_kbdContext.m_kbdStatus[CAPS_KEY.row][CAPS_KEY.col])
+        {
+            uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=KEY_CAPS;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+       
+    }*/
+    //left
+    if(m_kbdContext.m_kbdStatus[J_KEY.row][J_KEY.col] &&
+    row == J_KEY.row && col == J_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+            uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_LEFT;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+       
+    }
+    //down
+    if(m_kbdContext.m_kbdStatus[K_KEY.row][K_KEY.col] &&
+    row == K_KEY.row && col == K_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+            uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_DOWN;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+       
+    }
+    //right
+    if( m_kbdContext.m_kbdStatus[L_KEY.row][L_KEY.col] &&
+    row== L_KEY.row&& col == L_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+            uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_RIGHT;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+        
+    }
+    //up
+    if(m_kbdContext.m_kbdStatus[I_KEY.row][I_KEY.col] &&
+    row == I_KEY.row && col == I_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+            uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_UP;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+        
+    }
+
+    //delete
+    if(m_kbdContext.m_kbdStatus[BACKSPACE_KEY.row][BACKSPACE_KEY.col]&&
+    row ==BACKSPACE_KEY.row && col == BACKSPACE_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+           uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_DELETE;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+    }
+
+    return SINGLE_COMPOSITE_KEY;
 }

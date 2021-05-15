@@ -161,9 +161,9 @@ void kbd_gpio_init();
 // 2.É¨Ãè
 void kbd_scan();
 // 3.¼üÅÌ×´Ì¬ÊÇ·ñ¸Ä±ä
-uint8_t kbd_StatusIsChanged();
+uint8_t kbd_status_is_changed();
 // 4.update hid data
-void kbd_updateHidData();
+void kbd_update_hid_data();
 
 uint8_t kbd_modifier(uint8_t row, uint8_t col);
 
@@ -177,4 +177,5 @@ void kbd_send_hid_report();
 
 void send_hid_data(app_usbd_hid_kbd_t const* p_kbd, uint8_t* buf);
 
+uint8_t kbd_composite_key_handle(uint8_t row,uint8_t col);
 #endif

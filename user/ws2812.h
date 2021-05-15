@@ -31,6 +31,9 @@ typedef struct{
 
 void ws2812_init();
 
+void ws2812_macro_mode_setup();
+void ws2812_macro_put_point(int pos);
+int kbd_key_convert_pos(char key);
 
 
 //°×É«

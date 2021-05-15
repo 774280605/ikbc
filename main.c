@@ -533,9 +533,9 @@ APP_TIMER_DEF(m_keyboard_scan_timer);
 static void keyboard_scan_timer_handler(void * p_context)
 {
      kbd_loop();
-     if(kbd_StatusIsChanged())
+     if(kbd_status_is_changed())
      {
-          kbd_updateHidData();                
+          kbd_update_hid_data();                
           kbd_send_hid_report();
             
      }
@@ -668,9 +668,9 @@ int main(void)
          while (app_usbd_event_queue_process());
 #ifdef TEST_USB
          kbd_loop();
-         if(kbd_StatusIsChanged())
+         if(kbd_status_is_changed())
          {
-              kbd_updateHidData();                
+              kbd_update_hid_data();                
               kbd_send_hid_report();
                 
          }
