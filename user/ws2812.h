@@ -40,7 +40,7 @@ void ws2812_set_red();
 //绿色
 void ws2812_set_green();
 //蓝色
-void set_color_blue();
+void ws2812_color_blue();
 
 //自定义颜色1
 void set_custom_color_1();
@@ -54,7 +54,7 @@ void led_flash_start();
 void led_flash_stop();
 
 
-void send_color(RGB_t* grb);
+void ws2812_send_color(RGB_t*rgb);
 
 void setup_pretty_led();
 void increase_light();
