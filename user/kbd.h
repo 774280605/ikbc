@@ -105,6 +105,12 @@ typedef enum {
   _KEYPAD_8        = 96, /**<KBD_KEYPAD_8        code*/
   _KEYPAD_9        = 97, /**<KBD_KEYPAD_9        code*/
   _KEYPAD_0        = 98, /**<KBD_KEYPAD_0        code*/
+ 
+    _VOLUME_UP    = 128,
+
+  _VOLUME_DOWN = 129,
+  _AUDIO_NEXT   =176,
+  _AUDIO_PREV   =177,
 } kbd_codes_t;
 
 enum enMODIFIER {
@@ -133,14 +139,14 @@ enum _ConnType{
 
 
 typedef struct {
-  uint8_t m_modifier;
-  uint8_t m_reserve;
-  uint8_t m_table[6];
+  unsigned char m_modifier;
+  unsigned char m_reserve;
+  unsigned char m_table[6];
 
-  uint8_t m_kbdStatus[6][17];
-  uint8_t m_kbdLastTimeStatus[6][17];
-  uint8_t m_currentRecordMacro;
-  uint8_t m_connMode;
+  unsigned char m_kbdStatus[6][17];
+  unsigned char m_kbdLastTimeStatus[6][17];
+  unsigned char m_currentRecordMacro;
+  unsigned char m_connMode;
   const app_usbd_hid_kbd_t* m_usbHandle;
 
 } KBD_Context_t;
@@ -161,11 +167,11 @@ void kbd_gpio_init();
 // 2.É¨Ãè
 void kbd_scan();
 // 3.¼üÅÌ×´Ì¬ÊÇ·ñ¸Ä±ä
-uint8_t kbd_status_is_changed();
+bool kbd_status_is_changed();
 // 4.update hid data
 void kbd_update_hid_data();
 
-uint8_t kbd_modifier(uint8_t row, uint8_t col);
+bool kbd_modifier(uint8_t row, uint8_t col);
 
 void kbd_fn_key_handle();
 

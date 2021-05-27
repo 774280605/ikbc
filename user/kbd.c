@@ -61,6 +61,12 @@ KEY_Point K_8_KEY = {1, 8};
 KEY_Point K_9_KEY = {1, 9};
 KEY_Point K_0_KEY = {1, 10};
 
+KEY_Point K_SUB_KEY={1,11};
+KEY_Point K_PLUS_KEY={1,12};
+
+
+
+
 KBD_Context_t m_kbdContext;
 
 #define KEY_FN 0
@@ -156,7 +162,10 @@ void kbd_fn_key_handle()
         if (m_kbdContext.m_kbdStatus[MENU_KEY.row][MENU_KEY.col])
         {
             reset_macro_table();
-
+            if (m_kbdContext.m_connMode == WIRE_MODE)
+                    ws2812_set_close();
+            
+             nrf_delay_ms(200);
             reset_kbd_status();
         }
 
@@ -240,7 +249,7 @@ void kbd_fn_key_handle()
         {
             if (m_kbdContext.m_connMode == WIRE_MODE)
             {
-                //setup_pretty_led();
+                setup_pretty_led();
                 nrf_delay_ms(200);
             }
             reset_kbd_status();
@@ -281,7 +290,7 @@ void kbd_init()
 
     kbd_gpio_init();
 
-    //led_flash_init();
+    led_flash_init();
 
     // low_energy_timer_init();
     // kbd_setup_low_energy_tiemr();
@@ -451,7 +460,7 @@ void kbd_saveLastStatus()
     }
 }
 
-uint8_t kbd_status_is_changed()
+bool kbd_status_is_changed()
 {
     for (int i = 0; i < 6; ++i)
     {
@@ -461,12 +470,12 @@ uint8_t kbd_status_is_changed()
             {
                 kbd_saveLastStatus();
 
-                return 1;
+                return true;
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 void kbd_update_hid_data()
@@ -480,7 +489,7 @@ void kbd_update_hid_data()
         {
             if (m_kbdContext.m_kbdStatus[i][j])
             {
-                if (kbd_modifier(i, j) == 0) // common key
+                if (kbd_modifier(i, j) == false) // common key
                 {
                     if (is_macro_key(m_Matrix[i][j]))
                     {
@@ -515,7 +524,7 @@ uint8_t kbd_availableIndex()
     return 5;
 }
 
-uint8_t kbd_modifier(uint8_t row, uint8_t col)
+bool kbd_modifier(uint8_t row, uint8_t col)
 {
     if (LSHIFT_KEY.row == row && LSHIFT_KEY.col == col)
     {
@@ -547,9 +556,9 @@ uint8_t kbd_modifier(uint8_t row, uint8_t col)
     }
     else
     {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 //
@@ -612,8 +621,9 @@ void start_record_macro()
 {
     if (is_create_macro())
     {
-        // if (m_kbdContext.m_connMode == WIRE_MODE)
-        //  led_flash_start();
+        if (m_kbdContext.m_connMode == WIRE_MODE)
+             ws2812_macro_mode_setup();
+
         uint8_t is_create = 0;
         uint8_t recordKey = m_kbdContext.m_currentRecordMacro;
         uint8_t alreadyInMacroMount = 0;
@@ -623,7 +633,7 @@ void start_record_macro()
         do
         {
             kbd_scan();
-            if (kbd_status_is_changed() == 0)
+            if (kbd_status_is_changed() == false)
             {
                 continue;
             }
@@ -650,6 +660,7 @@ void start_record_macro()
             if (tmp != 0)
             {
                 put_macro_key(recordKey, tmp);
+                ws2812_macro_put_point(tmp);
                 nrf_delay_ms(100);
                 ++alreadyInMacroMount;
                 is_create = 1;
@@ -663,8 +674,8 @@ void start_record_macro()
         reset_kbd_status();
 
         nrf_delay_ms(200);
-        // if (m_kbdContext.m_connMode == WIRE_MODE)
-        //  led_flash_stop();
+         //if (m_kbdContext.m_connMode == WIRE_MODE)
+         //   ws2812_macro_timer_setup();
     }
 }
 
@@ -761,6 +772,28 @@ uint8_t kbd_composite_key_handle(uint8_t row, uint8_t col)
             return MULTIPLE_COMPOSITE_KEY;
         }
     }
-
+    //volume down
+     if(m_kbdContext.m_kbdStatus[K_SUB_KEY.row][K_SUB_KEY.col]&&
+    row ==K_SUB_KEY.row && col == K_SUB_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+           uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_VOLUME_DOWN;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+    }
+    
+     //volume up
+     if(m_kbdContext.m_kbdStatus[K_PLUS_KEY.row][K_PLUS_KEY.col]&&
+    row ==K_PLUS_KEY.row && col == K_PLUS_KEY.col)
+    {
+        if(m_kbdContext.m_kbdStatus[LEFT_FN_KEY.row][LEFT_FN_KEY.col])
+        {
+           uint8_t index= kbd_availableIndex();
+            m_kbdContext.m_table[index]=_VOLUME_UP;
+            return MULTIPLE_COMPOSITE_KEY;
+        }
+    }
     return SINGLE_COMPOSITE_KEY;
 }

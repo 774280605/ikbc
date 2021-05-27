@@ -3,12 +3,17 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include "kbd.h"
 APP_TIMER_DEF(m_led_timer);
 APP_TIMER_DEF(m_flash_timer);
 APP_TIMER_DEF(m_macro_timer);
 
 
-RGB_t m_rgb;
+RGB_t m_rgb={.g=0xff,.r=0,.b=0};
+
+int m_current_point=0;
+
+
 
 int m_lists_index = 0;
 RGB_t m_lists[8] = {
@@ -39,7 +44,78 @@ enum {
     ESC_Pos=12,
 
     PAGEUP_Pos=13,
-
+    HOME_Pos=14,
+    INSERT_Pos=15,
+    BACKSPACE_Pos=16, 
+    ADD_Pos=17,
+    SUB_Pos=18,
+    ZERO_Pos=19,
+    NINE_Pos=20,
+    EIGHT_Pos=21,
+    SEVEN_Pos=22,
+    SIX_Pos=23,
+    FIVE_Pos=24,
+    FOUR_Pos=25,
+    THREE_Pos=26,
+    TWO_Pos=27,
+    ONE_Pos=28,
+    BOLANXIAN_Pos=29,
+    PAGEDOWN_Pos=30,
+    END_Pos=31,
+    DELETE_Pos=32,
+    SLASH_Pos=33,
+    CLOSEBRACKET_Pos=34,
+    OPENBRACKET_Pos=35,
+    P_Pos=36,
+    O_Pos=37,
+    I_Pos=38,
+    U_Pos=39,
+    Y_Pos=40,
+    T_Pos=41,
+    R_Pos=42,
+    E_Pos=43,
+    W_Pos=44,
+    Q_Pos=45,
+    TAB_Pos=46,
+    ENTER_Pos=47,
+    YINHAO_Pos=48,
+    MAOHAO_Pos=49,
+    L_Pos=50,
+    K_Pos=51,
+    J_Pos=52,
+    H_Pos=53,
+    G_Pos=54,
+    F_Pos=55,
+    D_Pos=56,
+    S_Pos=57,
+    A_Pos=58,
+    CAPS_Pos=59,
+    UP_Pos=60,
+    RSHIFT_Pos=61,
+    WHY_Pos=62,
+    JUHAO_Pos=63,
+    DOUHAO_Pos=64,
+    M_Pos=65,
+    N_Pos=66,
+    B_Pos=67,
+    V_Pos=68,
+    C_Pos=69,
+    X_Pos=70,
+    Z_Pos=71,
+    LSHIFT_Pos=72,
+    RIGHT_Pos=73,
+    DOWN_Pos=74,
+    LEFT_Pos=75,
+    RCTRL_Pos=76,
+    MENU_Pos=77,
+    RFN_Pos=78,
+    RALT_Pos=79,
+    SPACE3_Pos=80,
+    SPACE2_Pos=81,
+    SPACE1_Pos=82,
+    LALT_Pos=83,
+    WIN_Pos=84,
+    LFN_Pos=85
 
 };
 
@@ -350,16 +426,16 @@ static void led_flash_handler(void *p_context)
 
 static void led_mode_handler(void *ctx)
 {
-    RGB_t rgb;
-    rgb = m_lists[m_lists_index];
-    ws2812_send_color(&rgb);
-    m_lists_index++;
-    m_lists_index %= 8;
+    memset(m_ws2812_table,0,86);
+    m_ws2812_table[m_current_point]=1;
+    ws2812_send_color(&m_rgb);
+    ++m_current_point;
+    m_current_point%=86;
 }
 
 static void ws2812_macro_timer_handler(void*ctx)
 {
-    RGB_t rgb={.b=0,.g=0,.r=0xff};
+    RGB_t rgb={.b=0,.g=0xff,.r=0};
     ws2812_send_color(&rgb);
     
 }
@@ -376,9 +452,17 @@ void led_flash_init()
     APP_ERROR_CHECK(ret);
 }
 
+void ws2812_macro_timer_setup()
+{
+            app_timer_start(m_macro_timer, APP_TIMER_TICKS(500), NULL);
+
+}
+
+
+
 void pretty_led_start()
 {
-    app_timer_start(m_flash_timer, APP_TIMER_TICKS(10000), NULL);
+    app_timer_start(m_flash_timer, APP_TIMER_TICKS(500), NULL);
 }
 void pretty_led_stop()
 {
@@ -518,20 +602,137 @@ void ws2812_macro_mode_setup()
     memset(m_ws2812_table,0,86);
 }
 
-void ws2812_macro_put_point(int pos)
+void ws2812_macro_put_point(int key)
 {
+    int pos=kbd_key_convert_pos(key);
+
     if(pos<0 || pos >85)
         return ;
 
     m_ws2812_table[pos]=1;
+    RGB_t rgb={.b=0,.g=0xff,.r=0};
+    ws2812_send_color(&rgb);
 }
 int kbd_key_convert_pos(char key)
 {
     switch(key)
     {
-        case F12_Pos:
-            
-            break;
+       case  _A  :     
+                return A_Pos;
+       case   _B :    
+                return B_Pos;
+       case   _C :     
+                return C_Pos;
+       case   _D :     
+                return D_Pos;
+       case   _E :     
+                return E_Pos;
+       case   _F :     
+                return F_Pos;
+       case   _G :     
+                return G_Pos;
+       case   _H :     
+                return H_Pos;
+       case   _I :     
+                return I_Pos;
+       case   _J :     
+                return J_Pos;
+       case   _K :     
+                return K_Pos;
+       case   _L :     
+                return L_Pos;
+       case   _M :     
+                return M_Pos;
+       case   _N :     
+                return N_Pos;
+       case   _O :     
+                return O_Pos;
+
+       case   _P :     
+                return P_Pos;
+       case   _Q :     
+                return Q_Pos;
+       case   _R :     
+                return R_Pos;
+       case   _S :     
+                return S_Pos;
+       case   _T :     
+                return T_Pos;
+       case   _U :     
+                return U_Pos;
+       case   _V :     
+                return V_Pos;
+       case   _W :     
+                return W_Pos;
+       case   _X :     
+                return X_Pos;
+       case   _Y :     
+                return Y_Pos;
+       case   _Z :     
+                return Z_Pos;
+       case   _1 :     
+                return ONE_Pos;
+       case   _2 :     
+                return TWO_Pos;
+       case   _3 :     
+                return THREE_Pos;
+       case   _4 :     
+                return FOUR_Pos;
+       case   _5 :     
+                return FIVE_Pos;
+       case   _6 :     
+                return SIX_Pos;
+       case   _7 :     
+                return SEVEN_Pos;
+       case   _8 :     
+                return EIGHT_Pos;
+       case   _9 :     
+                return NINE_Pos;
+       case   _0 :     
+                return ZERO_Pos;
+       case   _ENTER             :
+       case   _ESC               :
+       case   _BACKSPACE         :
+       case   _TAB               :
+       case   _SPACEBAR          :
+       case   _UNDERSCORE        :
+       case   _PLUS              :
+       case   _OPEN_BRACKET      :
+       case   _CLOSE_BRACKET     :
+       case   _BACKSLASH         :
+       case   _ASH               :
+       case   _COLON             :
+       case   _QUOTE             :
+       case   _TILDE             :
+       case   _COMMA             :
+       case   _DOT               :
+       case   _SLASH             :
+       case   _CAPS_LOCK         :
+       case   _F1   :
+       case   _F2   :
+       case   _F3   :
+       case   _F4   :
+       case   _F5   :
+       case   _F6   :
+       case   _F7   :
+       case   _F8   :
+       case   _F9   :
+       case   _F10  :
+       case   _F11  :
+       case   _F12  :
+       case   _PRINTSCREEN   :  
+       case   _SCROLL_LOCK   :  
+       case   _PAUSE   :        
+       case   _INSERT  :        
+       case   _HOME    :        
+       case   _PAGEUP  :        
+       case   _DELETE  :        
+       case   _END      :       
+       case   _PAGEDOWN :       
+       case   _RIGHT:           
+       case   _LEFT :           
+       case   _DOWN :           
+       case   _UP   :           
 
         default:
             break;
