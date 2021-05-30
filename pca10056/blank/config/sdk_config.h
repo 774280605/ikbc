@@ -1170,7 +1170,7 @@
 // <i> Note: This value is not editable in Configuration Wizard.
 // <i> Vendor ID ordered from USB IF: http://www.usb.org/developers/vendor/
 #ifndef APP_USBD_VID
-#define APP_USBD_VID 0x1915
+#define APP_USBD_VID 0x1910
 #endif
 
 // <s> APP_USBD_PID - Product ID.

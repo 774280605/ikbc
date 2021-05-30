@@ -83,6 +83,10 @@
 #include "user/low_energy_timer.h"
 #include "nrf_gzll.h"
 #include "nrf_gzll_error.h"
+
+
+
+
 bool m_usbOnline=false;
 
 #define PIPE_NUMBER             0   /**< Pipe 0 is used in this example. */
@@ -574,7 +578,10 @@ static void gpio_output_voltage_setup(void)
 int main(void)
 {
 
-  gpio_output_voltage_setup();
+   gpio_output_voltage_setup();
+    
+    
+
 
     ret_code_t ret;
     static const app_usbd_config_t usbd_config = {
