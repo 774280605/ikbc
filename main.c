@@ -622,7 +622,7 @@ int main(void)
 
     //app_timer_start(m_keyboard_scan_timer, APP_TIMER_TICKS(CONFIG_MOUSE_MOVE_TIME_MS), NULL);
 
-
+    
 
 
     ret = app_usbd_init(&usbd_config);

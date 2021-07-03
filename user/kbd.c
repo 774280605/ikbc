@@ -76,7 +76,7 @@ unsigned char m_Matrix[6][17] = {
     {_TAB, _Q, _W, _E, _R, _T, _Y, _U, _I, _O, _P, _OPEN_BRACKET, _CLOSE_BRACKET, _BACKSLASH, _DELETE, _END, _PAGEDOWN},
     {_LEFT_CTRL, _A, _S, _D, _F, _G, _H, _J, _K, _L, _COLON, _QUOTE, _ENTER, 0, 0, 0, 0},
     {_LEFT_SHIFT, _Z, _X, _C, _V, _B, _N, _M, _COMMA, _DOT, _SLASH, _RIGHT_SHIFT, _UP, 0, 0, 0, 0},
-    {0, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _CAPS_LOCK, _SPACEBAR, _RIGHT_ALT, KEY_FN, 0, _RIGHT_CTRL,
+    {_CAPS_LOCK, _LEFT_UI, _LEFT_ALT, _SPACEBAR, _SPACEBAR, _SPACEBAR, _RIGHT_ALT, KEY_FN, 0, _RIGHT_CTRL,
         _LEFT, _DOWN, _RIGHT, 0, 0, 0, 0}};
 
 int m_Matrix_Row_Raw[6] = {
@@ -495,9 +495,9 @@ void kbd_update_hid_data()
                     {
                         put_macro_key_to_pkt(m_Matrix[i][j]);
                     }
-                    else if (kbd_composite_key_handle(i, j))
+                    /*else if (kbd_composite_key_handle(i, j))
                     {
-                    }
+                    }*/
                     else
                     {
                         uint8_t key = m_Matrix[i][j];
